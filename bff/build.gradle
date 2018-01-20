@@ -1,11 +1,17 @@
 apply plugin: 'java'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
+
+mainClassName = "com.github.stocky37.yougo.YougoApplication"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    compile 'io.dropwizard:dropwizard-core:1.2.2'
+    compile 'io.dropwizard:dropwizard-testing:1.2.2'
+    compileOnly 'org.immutables:value:2.5.5'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
