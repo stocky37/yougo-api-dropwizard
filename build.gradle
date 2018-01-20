@@ -1,0 +1,8 @@
+allprojects {
+	group 'com.github.stocky37'
+	version '0.1.0-SNAPSHOT'
+}
+
+
+
+
