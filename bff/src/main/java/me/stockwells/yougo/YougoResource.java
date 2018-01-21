@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 public class YougoResource {
 
   @GET
-  @Path("gos")
+  @Path("gos/{user}")
   public String listGos() {
     return FixtureHelpers.fixture("com.github.stocky37/yougo/fixtures/gos.json");
   }
