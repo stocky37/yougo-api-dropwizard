@@ -4,12 +4,14 @@ export default class Gos extends Component {
   render() {
     return (
         <table>
-          <tr>
-            <th>Shortcut</th>
-            <th>Href</th>
-            <th>Description</th>
-          </tr>
-
+          <thead>
+            <tr>
+              <th>Shortcut</th>
+              <th>Href</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
           {this.props.gos.map(function (go) {
             return <tr key={go.id}>
               <td>{go.shortcut}</td>
@@ -17,6 +19,7 @@ export default class Gos extends Component {
               <td>{go.description}</td>
             </tr>
           })}
+          </tbody>
         </table>
     )
   }
