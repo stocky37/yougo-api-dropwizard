@@ -6,7 +6,7 @@ import Gos from './Gos'
 class App extends Component {
 
   componentDidMount() {
-    fetch("http://localhost:8080/gos/me")
+    fetch(`${process.env.REACT_APP_SERVICE_URL}/gos/me`)
     .then(response => response.json())
     .then(json => {
       this.setState({
