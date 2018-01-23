@@ -33,10 +33,10 @@ class App extends Component {
             this.state && this.state.data &&
             <div>
               <h2>Global Gos</h2>
-              <Gos gos={this.state.data.global}/>
+              <Gos gos={this.state.data}/>
 
-              <h2>Personal Gos</h2>
-              <Gos gos={this.state.data.personal}/>
+              {/*<h2>Personal Gos</h2>*/}
+              {/*<Gos gos={this.state.data.personal}/>*/}
             </div>
           }
         </div>

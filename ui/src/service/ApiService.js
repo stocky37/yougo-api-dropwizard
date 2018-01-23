@@ -4,19 +4,19 @@ class ApiService {
   }
 
   getGos() {
-    return fetch(`${this.baseUrl}/gos/me`)
+    return fetch(`${this.baseUrl}/v1/aliases`)
       .catch(error => console.error('Error: ', error))
       .then(response => response.json());
   }
 
   addGo(shortcut, href, description) {
-    return fetch(`${this.baseUrl}/gos`, {
+    return fetch(`${this.baseUrl}/v1/aliases`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json'
       }),
       body: JSON.stringify({
-        shortcut: shortcut,
+        alias: shortcut,
         href: href,
         description: description
       })
