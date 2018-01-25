@@ -1,21 +1,26 @@
 import React, {Component} from 'react';
 import ApiService from "./service/ApiService";
 
-export default class GoForm extends Component {
+const initialState = {
+  shortcut: '',
+  href: '',
+  desc: ''
+};
 
+export default class GoForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      shortcut: '',
-      href: '',
-      desc: ''
-    };
+    this.state = initialState;
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
   onSubmit(event) {
-    ApiService.addGo(this.state.shortcut, this.state.href, this.state.desc);
+    ApiService.addGo(this.state.shortcut, this.state.href, this.state.desc)
+      .then(json => {
+        this.setState(initialState);
+        this.props.loadGos()
+      });
     event.preventDefault();
   }
 

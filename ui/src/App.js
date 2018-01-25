@@ -1,13 +1,25 @@
-import React, {Component} from 'react';
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Gos from './Gos'
 import ApiService from './service/ApiService'
 import GoForm from "./GoForm";
 
-class App extends Component {
+class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: []
+    };
+    this.loadGos.bind(this)
+  }
 
   componentDidMount() {
+    this.loadGos()
+  }
+
+  loadGos() {
     ApiService.getGos().then(
         json => {
           this.setState({
@@ -15,7 +27,6 @@ class App extends Component {
           })
         }
     );
-
   }
 
   render() {
@@ -28,15 +39,11 @@ class App extends Component {
           <p className="App-intro">
             To get started, edit <code>src/App.js</code> and save to reload. No
           </p>
-          <GoForm/>
+          <GoForm loadGos={this.loadGos.bind(this)}/>
           {
-            this.state && this.state.data &&
             <div>
-              <h2>Global Gos</h2>
+              <h2>Gos</h2>
               <Gos gos={this.state.data}/>
-
-              {/*<h2>Personal Gos</h2>*/}
-              {/*<Gos gos={this.state.data.personal}/>*/}
             </div>
           }
         </div>
