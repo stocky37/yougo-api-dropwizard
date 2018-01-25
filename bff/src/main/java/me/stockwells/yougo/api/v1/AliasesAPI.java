@@ -1,6 +1,8 @@
 package com.github.stocky37.yougo.api.v1;
 
 import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,5 +19,5 @@ public interface AliasesAPI {
   List<Alias> listAliases();
 
   @POST
-  Alias addGo(Alias alias);
+  Alias addGo(@Valid @NotNull Alias alias);
 }

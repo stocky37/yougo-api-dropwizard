@@ -13,10 +13,10 @@ public class AliasConverter extends Converter<Alias, AliasEntity> {
   @Override
   protected AliasEntity doForward(Alias alias) {
     return new AliasEntity()
-        .setId(alias.id())
-        .setAlias(alias.alias())
-        .setHref(alias.href())
-        .setDescription(alias.description());
+        .setId(alias.getId())
+        .setAlias(alias.getAlias())
+        .setHref(alias.getHref())
+        .setDescription(alias.getDescription());
   }
 
   @Override

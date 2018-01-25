@@ -2,17 +2,14 @@ package com.github.stocky37.yougo.http.v1;
 
 import io.dropwizard.hibernate.UnitOfWork;
 import java.net.URI;
-import java.util.Optional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import com.github.stocky37.yougo.api.v1.Alias;
 import com.github.stocky37.yougo.api.v1.GoAPI;
 import com.github.stocky37.yougo.core.AliasesService;
-import com.github.stocky37.yougo.db.AliasEntity;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -29,7 +26,7 @@ public class GoResource implements GoAPI {
   @Override
   public Response go(String alias) {
     return Response.seeOther(
-        URI.create(service.getAlias(alias).orElseThrow(NotFoundException::new).href())
+        URI.create(service.getAlias(alias).orElseThrow(NotFoundException::new).getHref())
     ).build();
   }
 }
