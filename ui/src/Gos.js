@@ -1,26 +1,29 @@
-import React, {Component} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 
-export default class Gos extends Component {
-  render() {
-    return (
-        <table>
-          <thead>
-            <tr>
-              <th>Shortcut</th>
-              <th>Href</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-          {this.props.gos.map(function (go) {
-            return <tr key={go.id}>
-              <td>{go.alias}</td>
-              <td>{go.href}</td>
-              <td>{go.description}</td>
-            </tr>
-          })}
-          </tbody>
-        </table>
-    )
-  }
-}
+const Gos = ({ gos }) => (
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableCell>Alias</TableCell>
+        <TableCell>Href</TableCell>
+        <TableCell>Description</TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      {gos.map(go => (
+        <TableRow key={go.id}>
+          <TableCell>{go.alias}</TableCell>
+          <TableCell>{go.href}</TableCell>
+          <TableCell>{go.description}</TableCell>
+        </TableRow>))}
+    </TableBody>
+  </Table>
+);
+
+Gos.propTypes = {
+  gos: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+export default Gos;

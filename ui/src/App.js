@@ -1,52 +1,46 @@
 import React from 'react';
-import logo from './logo.svg';
+import Grid from 'material-ui/Grid';
+import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
+import ApiService from './service/ApiService';
+import Gos from './Gos';
+import GoForm from './GoForm';
 import './App.css';
-import Gos from './Gos'
-import ApiService from './service/ApiService'
-import GoForm from "./GoForm";
+
+const theme = createMuiTheme();
 
 class App extends React.Component {
-
   constructor(props) {
     super(props);
+    this.loadGos = this.loadGos.bind(this);
     this.state = {
-      data: []
+      data: [],
     };
-    this.loadGos.bind(this)
   }
 
   componentDidMount() {
-    this.loadGos()
+    this.loadGos();
   }
 
   loadGos() {
-    ApiService.getGos().then(
-        json => {
-          this.setState({
-            data: json
-          })
-        }
-    );
+    ApiService.getGos()
+      .then((json) => {
+        this.setState({
+          data: json,
+        });
+      });
   }
 
   render() {
     return (
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo"/>
-            <h1 className="App-title">Welcome to React</h1>
-          </header>
-          <p className="App-intro">
-            To get started, edit <code>src/App.js</code> and save to reload. No
-          </p>
-          <GoForm loadGos={this.loadGos.bind(this)}/>
-          {
-            <div>
-              <h2>Gos</h2>
-              <Gos gos={this.state.data}/>
-            </div>
-          }
+      <MuiThemeProvider theme={theme}>
+        <div style={{ padding: 24 }}>
+          <Grid container spacing={24}>
+            <GoForm loadGos={this.loadGos} />
+            <Gos gos={this.state.data} />
+          </Grid>
+          <Grid container spacing={24} />
         </div>
+      </MuiThemeProvider>
     );
   }
 }

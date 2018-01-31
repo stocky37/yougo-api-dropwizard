@@ -9,19 +9,15 @@ class ApiService {
       .then(response => response.json());
   }
 
-  addGo(shortcut, href, description) {
+  addGo(alias, href, description) {
     return fetch(`${this.baseUrl}/v1/aliases`, {
       method: 'POST',
       headers: new Headers({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       }),
-      body: JSON.stringify({
-        alias: shortcut,
-        href: href,
-        description: description
-      })
+      body: JSON.stringify({ alias, href, description }),
     }).catch(error => console.error('Error: ', error))
-    .then(response => response.json())
+      .then(response => response.json());
   }
 }
 
