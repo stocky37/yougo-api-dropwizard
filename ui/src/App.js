@@ -1,48 +1,72 @@
-import React from 'react';
 import Grid from 'material-ui/Grid';
-import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
-import ApiService from './service/ApiService';
-import Gos from './Gos';
-import GoForm from './GoForm';
+import { createMuiTheme, MuiThemeProvider, withStyles } from 'material-ui/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
 import './App.css';
+import GoForm from './GoForm';
+import Gos from './Gos';
+import YougoAppBar from './menu/YougoAppBar';
+import ApiService from './service/ApiService';
 
 const theme = createMuiTheme();
+const styles = {
+	root: {
+		padding: 16,
+	},
+	container: {
+		flexGrow: 1,
+	},
+};
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.loadGos = this.loadGos.bind(this);
-    this.state = {
-      data: [],
-    };
-  }
+	constructor(props) {
+		super(props);
+		this.loadGos = this.loadGos.bind(this);
+		this.state = {
+			data: [],
+		};
+	}
 
-  componentDidMount() {
-    this.loadGos();
-  }
+	componentDidMount() {
+		this.loadGos();
+	}
 
-  loadGos() {
-    ApiService.getGos()
-      .then((json) => {
-        this.setState({
-          data: json,
-        });
-      });
-  }
+	loadGos() {
+		ApiService.getGos()
+			.then((json) => {
+				this.setState({
+					data: json,
+				});
+			});
+	}
 
-  render() {
-    return (
-      <MuiThemeProvider theme={theme}>
-        <div style={{ padding: 24 }}>
-          <Grid container spacing={24}>
-            <GoForm loadGos={this.loadGos} />
-            <Gos gos={this.state.data} />
-          </Grid>
-          <Grid container spacing={24} />
-        </div>
-      </MuiThemeProvider>
-    );
-  }
+	render() {
+		const { classes } = this.props;
+		return (
+			<MuiThemeProvider theme={theme}>
+				<YougoAppBar />
+				<div className={classes.root}>
+					<Grid container className={classes.container}>
+						<Grid item xs={3} />
+						<Grid item xs={6}>
+							<GoForm loadGos={this.loadGos} />
+						</Grid>
+						<Grid item xs={3} />
+					</Grid>
+					<Grid container className={classes.container}>
+						<Gos gos={this.state.data} />
+					</Grid>
+				</div>
+			</MuiThemeProvider>
+		);
+	}
 }
 
-export default App;
+App.propTypes = {
+	classes: PropTypes.shape({
+		root: PropTypes.string,
+		container: PropTypes.string,
+	}).isRequired,
+};
+
+export default withStyles(styles)(App);
