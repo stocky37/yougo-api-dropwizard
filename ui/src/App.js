@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import './App.css';
 import GoForm from './GoForm';
-import Gos from './Gos';
+import GoTable from './gos/GoTable';
 import YougoAppBar from './menu/YougoAppBar';
 import ApiService from './service/ApiService';
 
@@ -54,7 +54,7 @@ class App extends React.Component {
 						<Grid item xs={3} />
 					</Grid>
 					<Grid container className={classes.container}>
-						<Gos gos={this.state.data} />
+						<GoTable gos={this.state.data} />
 					</Grid>
 				</div>
 			</MuiThemeProvider>
