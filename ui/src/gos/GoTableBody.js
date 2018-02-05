@@ -1,4 +1,4 @@
-import { TableBody, TableCell, TableRow, withStyles } from 'material-ui';
+import { TableBody, TableCell, TableRow, Typography, withStyles } from 'material-ui';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -10,9 +10,15 @@ const GoTableBody = (props) => {
 		<TableBody className={classes.root}>
 			{gos.map(go => (
 				<TableRow className={classes.row} key={go.id}>
-					<TableCell className={classes.aliasCell}>{go.alias}</TableCell>
-					<TableCell className={classes.hrefCell}>{go.href}</TableCell>
-					<TableCell className={classes.descCell}>{go.description}</TableCell>
+					<TableCell className={classes.aliasCell}>
+						<Typography>{go.alias}</Typography>
+					</TableCell>
+					<TableCell className={classes.hrefCell}>
+						<Typography>{go.href}</Typography>
+					</TableCell>
+					<TableCell className={classes.descCell}>
+						<Typography>{go.description}</Typography>
+					</TableCell>
 				</TableRow>))}
 		</TableBody>
 	);

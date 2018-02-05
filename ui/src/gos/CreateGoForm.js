@@ -1,9 +1,10 @@
 import Button from 'material-ui/Button';
+import DialogActions from 'material-ui/es/Dialog/DialogActions';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import ApiService from './service/ApiService';
+import ApiService from '../service/ApiService';
 
 const styles = {};
 const initialState = {
@@ -12,20 +13,23 @@ const initialState = {
 	desc: '',
 };
 
-class GoForm extends Component {
+class CreateGoForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = initialState;
 		this.onSubmit = this.onSubmit.bind(this);
 		this.onChange = this.onChange.bind(this);
+		this.onCancel = this.onCancel.bind(this);
+		this.reset = this.reset.bind(this);
 	}
 
 	onSubmit(event) {
 		ApiService.addGo(this.state.alias, this.state.href, this.state.desc)
 			.then(() => {
 				this.setState(initialState);
-				this.props.loadGos();
+				this.props.reload();
 			});
+		this.props.close();
 		event.preventDefault();
 	}
 
@@ -33,6 +37,15 @@ class GoForm extends Component {
 		this.setState({
 			[event.target.name]: event.target.value,
 		});
+	}
+
+	onCancel() {
+		this.reset();
+		this.props.close();
+	}
+
+	reset() {
+		this.setState(initialState);
 	}
 
 	render() {
@@ -66,15 +79,19 @@ class GoForm extends Component {
 						margin="normal"
 					/>
 					<br />
-					<Button raised type="submit" color="primary">Submit</Button>
+					<DialogActions>
+						<Button color="secondary" onClick={this.onCancel}>Cancel</Button>
+						<Button type="submit" color="primary">Submit</Button>
+					</DialogActions>
 				</div>
 			</form>
 		);
 	}
 }
 
-GoForm.propTypes = {
-	loadGos: PropTypes.func.isRequired,
+CreateGoForm.propTypes = {
+	reload: PropTypes.func.isRequired,
+	close: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(GoForm);
+export default withStyles(styles)(CreateGoForm);
