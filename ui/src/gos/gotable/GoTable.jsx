@@ -1,4 +1,5 @@
-import { Table, withStyles } from 'material-ui';
+import withStyles from 'material-ui/es/styles/withStyles';
+import Table from 'material-ui/es/Table/Table';
 import PropTypes from 'prop-types';
 import React from 'react';
 import GoTableBody from './GoTableBody';
@@ -7,18 +8,15 @@ import GoTableToolbar from './GoTableToolbar';
 
 const styles = {};
 
-const GoTable = (props) => {
-	const { classes, data, load } = props;
-	return (
-		<div>
-			<GoTableToolbar reload={load} />
-			<Table className={classes.root}>
-				<GoTableHeader />
-				<GoTableBody gos={data} />
-			</Table>
-		</div>
-	);
-};
+const GoTable = ({ classes, data, load }) => (
+	<div>
+		<GoTableToolbar reload={load} />
+		<Table className={classes.root}>
+			<GoTableHeader />
+			<GoTableBody gos={data} />
+		</Table>
+	</div>
+);
 
 GoTable.propTypes = {
 	load: PropTypes.func.isRequired,

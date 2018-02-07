@@ -1,6 +1,6 @@
 import Grid from 'material-ui/es/Grid/Grid';
+import createMuiTheme from 'material-ui/es/styles/createMuiTheme';
 import withStyles from 'material-ui/es/styles/withStyles';
-import { createMuiTheme } from 'material-ui/styles/index';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PropTypes from 'prop-types';
 import React from 'react';

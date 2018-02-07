@@ -1,8 +1,8 @@
 import MenuIcon from 'material-ui-icons/Menu';
 import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
+import withStyles from 'material-ui/es/styles/withStyles';
 import IconButton from 'material-ui/IconButton';
-import { withStyles } from 'material-ui/styles';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import PropTypes from 'prop-types';
