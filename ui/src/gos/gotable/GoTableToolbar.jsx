@@ -1,7 +1,7 @@
 import { Toolbar, Typography, withStyles } from 'material-ui';
 import PropTypes from 'prop-types';
 import React from 'react';
-import CreateGoDialog from './CreateGoDialog';
+import CreateGoDialogContainer from '../creatego';
 
 const styles = {
 	title: {
@@ -21,7 +21,7 @@ const GoTableToolbar = (props) => {
 			</div>
 			<div className={classes.spacer} />
 			<div className={classes.actions}>
-				<CreateGoDialog reload={reload} />
+				<CreateGoDialogContainer reload={reload} />
 			</div>
 		</Toolbar>
 	);
