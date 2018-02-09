@@ -1,32 +1,19 @@
-import React, { Component } from 'react';
-import ApiService from '../../service/ApiService';
+import { connect } from 'react-redux';
+import { fetchAliasesIfNeeded, invalidateAliases } from '../../actions';
 import GoTable from './GoTable';
 
-export default class GoTableContainer extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: [],
-		};
-		this.load = this.load.bind(this);
-	}
+const mapStateToProps = state => ({
+	data: state.aliasesByType.global.items,
+});
 
-	componentDidMount() {
-		this.load();
-	}
+const mapDispatchToProps = dispatch => ({
+	load: () => {
+		dispatch(fetchAliasesIfNeeded('global'));
+	},
+	doInvalidate: () => {
+		dispatch(invalidateAliases('global'));
+	},
+});
 
-	load() {
-		ApiService.getGos()
-			.then((json) => {
-				this.setState({
-					data: json,
-				});
-			});
-	}
-
-	render() {
-		return (
-			<GoTable load={this.load} data={this.state.data} />
-		);
-	}
-}
+const GoTableContainer = connect(mapStateToProps, mapDispatchToProps)(GoTable);
+export default GoTableContainer;
