@@ -4,9 +4,7 @@ class ApiService {
 	}
 
 	getGos() {
-		return fetch(`${this.baseUrl}/v1/aliases`)
-			.catch(error => console.error('Error: ', error))
-			.then(response => response.json());
+		return fetch(`${this.baseUrl}/v1/aliases`);
 	}
 
 	addGo(alias, href, description) {
@@ -16,8 +14,7 @@ class ApiService {
 				'Content-Type': 'application/json',
 			}),
 			body: JSON.stringify({ alias, href, description }),
-		}).catch(error => console.error('Error: ', error))
-			.then(response => response.json());
+		});
 	}
 }
 

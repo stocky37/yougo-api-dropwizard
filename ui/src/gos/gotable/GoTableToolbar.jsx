@@ -1,4 +1,6 @@
-import { Toolbar, Typography, withStyles } from 'material-ui';
+import withStyles from 'material-ui/es/styles/withStyles';
+import Toolbar from 'material-ui/es/Toolbar/Toolbar';
+import Typography from 'material-ui/es/Typography/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
 import CreateGoDialogContainer from '../creatego';
@@ -12,23 +14,20 @@ const styles = {
 	},
 };
 
-const GoTableToolbar = (props) => {
-	const { classes, reload } = props;
-	return (
-		<Toolbar className={classes.root}>
-			<div className={classes.title}>
-				<Typography variant="title">Global Aliases</Typography>
-			</div>
-			<div className={classes.spacer} />
-			<div className={classes.actions}>
-				<CreateGoDialogContainer reload={reload} />
-			</div>
-		</Toolbar>
-	);
-};
+const GoTableToolbar = ({ classes, onSubmit }) => (
+	<Toolbar className={classes.root}>
+		<div className={classes.title}>
+			<Typography variant="title">Global Aliases</Typography>
+		</div>
+		<div className={classes.spacer} />
+		<div className={classes.actions}>
+			<CreateGoDialogContainer onSubmit={onSubmit} />
+		</div>
+	</Toolbar>
+);
 
 GoTableToolbar.propTypes = {
-	reload: PropTypes.func.isRequired,
+	onSubmit: PropTypes.func.isRequired,
 	classes: PropTypes.shape({
 		root: PropTypes.string,
 		title: PropTypes.string,
