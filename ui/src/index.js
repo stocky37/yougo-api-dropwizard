@@ -22,8 +22,7 @@ const store = createStore(
 	applyMiddleware(...middleware)
 );
 
-store.dispatch(fetchAliasesIfNeeded('global'))
-	.then(() => console.log(store.getState()));
+store.dispatch(fetchAliasesIfNeeded('global'));
 
 ReactDOM.render(
 	<Provider store={store}>

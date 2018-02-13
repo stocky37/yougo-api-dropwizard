@@ -1,18 +1,13 @@
 import { connect } from 'react-redux';
-import { fetchAliasesIfNeeded, invalidateAliases } from '../../actions';
+import { createAlias } from '../../actions';
 import GoTable from './GoTable';
 
 const mapStateToProps = state => ({
-	data: state.aliasesByType.global.items,
+	data: state.sections.global && state.sections.global.items,
 });
 
 const mapDispatchToProps = dispatch => ({
-	load: () => {
-		dispatch(fetchAliasesIfNeeded('global'));
-	},
-	doInvalidate: () => {
-		dispatch(invalidateAliases('global'));
-	},
+	onSubmit: values => dispatch(createAlias('global', { ...values })),
 });
 
 const GoTableContainer = connect(mapStateToProps, mapDispatchToProps)(GoTable);

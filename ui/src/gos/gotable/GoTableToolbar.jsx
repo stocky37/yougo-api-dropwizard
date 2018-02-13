@@ -1,4 +1,3 @@
-import Button from 'material-ui/es/Button/Button';
 import withStyles from 'material-ui/es/styles/withStyles';
 import Toolbar from 'material-ui/es/Toolbar/Toolbar';
 import Typography from 'material-ui/es/Typography/Typography';
@@ -15,27 +14,20 @@ const styles = {
 	},
 };
 
-const GoTableToolbar = ({ classes, reload, doInvalidate }) => (
+const GoTableToolbar = ({ classes, onSubmit }) => (
 	<Toolbar className={classes.root}>
 		<div className={classes.title}>
 			<Typography variant="title">Global Aliases</Typography>
 		</div>
 		<div className={classes.spacer} />
 		<div className={classes.actions}>
-			<Button onClick={doInvalidate}>
-				Invalidate
-			</Button>
-			<Button onClick={reload}>
-				Reload
-			</Button>
-			<CreateGoDialogContainer reload={reload} />
+			<CreateGoDialogContainer onSubmit={onSubmit} />
 		</div>
 	</Toolbar>
 );
 
 GoTableToolbar.propTypes = {
-	reload: PropTypes.func.isRequired,
-	doInvalidate: PropTypes.func.isRequired,
+	onSubmit: PropTypes.func.isRequired,
 	classes: PropTypes.shape({
 		root: PropTypes.string,
 		title: PropTypes.string,

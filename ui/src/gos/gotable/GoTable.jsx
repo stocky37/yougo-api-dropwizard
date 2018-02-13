@@ -9,10 +9,10 @@ import GoTableToolbar from './GoTableToolbar';
 const styles = {};
 
 const GoTable = ({
-	classes, data, load, doInvalidate,
+	classes, data, onSubmit,
 }) => (
 	<div>
-		<GoTableToolbar reload={load} doInvalidate={doInvalidate} />
+		<GoTableToolbar onSubmit={onSubmit} />
 		<Table className={classes.root}>
 			<GoTableHeader />
 			<GoTableBody gos={data} />
@@ -21,8 +21,7 @@ const GoTable = ({
 );
 
 GoTable.propTypes = {
-	load: PropTypes.func.isRequired,
-	doInvalidate: PropTypes.func.isRequired,
+	onSubmit: PropTypes.func.isRequired,
 	data: PropTypes.arrayOf(PropTypes.shape({
 		alias: PropTypes.string,
 		href: PropTypes.string,

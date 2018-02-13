@@ -10,6 +10,8 @@ import Tooltip from 'material-ui/es/Tooltip/Tooltip';
 import TextField from 'material-ui/TextField/TextField';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { formPropTypes } from 'redux-form';
+import Field from 'redux-form/es/Field';
 
 const styles = {
 	root: {
@@ -17,8 +19,22 @@ const styles = {
 	},
 };
 
+const renderTextField = ({
+	input,
+	label,
+	placeholder,
+}) => (
+	<div>
+		<TextField
+			label={label}
+			placeholder={placeholder}
+			{...input}
+		/>
+	</div>
+);
+
 const CreateGoDialog = ({
-	classes, open, close, isOpen, onSubmit, onClose, onChange, data,
+	classes, open, close, isOpen, onClose, handleSubmit,
 }) => (
 	<div className={classes.root}>
 		<Tooltip title="Create new">
@@ -29,38 +45,31 @@ const CreateGoDialog = ({
 
 		<Dialog
 			open={isOpen}
-			onClose={onClose}
+			onClose={close}
+			onExit={onClose}
 			aria-labelledby="create-new-form-dialog"
 		>
 			<DialogTitle id="create-new-form-dialog">Create new alias</DialogTitle>
 			<DialogContent>
-				<form onSubmit={onSubmit}>
+				<form onSubmit={handleSubmit}>
 					<div className={classes.fields}>
-						<TextField
+						<Field
+							component={renderTextField}
 							name="alias"
 							label="Alias"
 							placeholder="google"
-							value={data.alias}
-							onChange={onChange}
-							margin="normal"
 						/>
-						<br />
-						<TextField
+						<Field
+							component={renderTextField}
 							name="href"
 							label="Href"
-							placeholder="http://www.google.com"
-							value={data.href}
-							onChange={onChange}
-							margin="normal"
+							placeholder="http://www.google.com.au"
 						/>
-						<br />
-						<TextField
+						<Field
+							component={renderTextField}
 							name="desc"
 							label="Description"
 							placeholder="Google"
-							value={data.desc}
-							onChange={onChange}
-							margin="normal"
 						/>
 					</div>
 					<div className={classes.actions}>
@@ -76,17 +85,11 @@ const CreateGoDialog = ({
 );
 
 CreateGoDialog.propTypes = {
+	...formPropTypes,
 	isOpen: PropTypes.bool,
 	open: PropTypes.func.isRequired,
 	close: PropTypes.func.isRequired,
-	onChange: PropTypes.func.isRequired,
-	onSubmit: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
-	data: PropTypes.shape({
-		alias: PropTypes.string,
-		href: PropTypes.string,
-		desc: PropTypes.string,
-	}).isRequired,
 	classes: PropTypes.shape({
 		root: PropTypes.string,
 		fields: PropTypes.string,
