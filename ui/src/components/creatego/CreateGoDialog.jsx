@@ -34,24 +34,24 @@ const renderTextField = ({
 );
 
 const CreateGoDialog = ({
-	classes, open, close, isOpen, onClose, handleSubmit,
+	classes, actions, isOpen, handleSubmit,
 }) => (
 	<div className={classes.root}>
 		<Tooltip title="Create new">
-			<IconButton aria-label="Create new" onClick={open}>
+			<IconButton aria-label="Create new" onClick={actions.open}>
 				<Add />
 			</IconButton>
 		</Tooltip>
 
 		<Dialog
 			open={isOpen}
-			onClose={close}
-			onExit={onClose}
+			onClose={actions.close}
+			onExit={actions.onClose}
 			aria-labelledby="create-new-form-dialog"
 		>
 			<DialogTitle id="create-new-form-dialog">Create new alias</DialogTitle>
 			<DialogContent>
-				<form onSubmit={handleSubmit}>
+				<form onSubmit={handleSubmit(actions.onSubmit)}>
 					<div className={classes.fields}>
 						<Field
 							component={renderTextField}
@@ -74,7 +74,7 @@ const CreateGoDialog = ({
 					</div>
 					<div className={classes.actions}>
 						<DialogActions>
-							<Button color="secondary" onClick={close}>Cancel</Button>
+							<Button color="secondary" onClick={actions.close}>Cancel</Button>
 							<Button type="submit" color="primary">Submit</Button>
 						</DialogActions>
 					</div>
@@ -86,10 +86,12 @@ const CreateGoDialog = ({
 
 CreateGoDialog.propTypes = {
 	...formPropTypes,
+	actions: PropTypes.shape({
+		open: PropTypes.func.isRequired,
+		close: PropTypes.func.isRequired,
+		onClose: PropTypes.func.isRequired,
+	}).isRequired,
 	isOpen: PropTypes.bool,
-	open: PropTypes.func.isRequired,
-	close: PropTypes.func.isRequired,
-	onClose: PropTypes.func.isRequired,
 	classes: PropTypes.shape({
 		root: PropTypes.string,
 		fields: PropTypes.string,

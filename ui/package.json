@@ -3,16 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "material-ui": "^1.0.0-beta.32",
-    "material-ui-icons": "^1.0.0-beta.17",
+    "material-ui": "^1.0.0-beta.38",
+    "material-ui-icons": "^1.0.0-beta.36",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "react-scripts": "1.1.0",
     "redux": "^3.7.2",
+    "redux-actions": "^2.3.0",
+    "redux-api-middleware": "^2.3.0",
+    "redux-batched-actions": "^0.2.1",
     "redux-form": "^7.2.3",
     "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1",
     "typeface-roboto": "0.0.54"
   },
   "scripts": {
@@ -23,6 +27,7 @@
     "lint": "eslint src"
   },
   "devDependencies": {
+    "ajv": "^6.3.0",
     "eslint": "^4.17.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
