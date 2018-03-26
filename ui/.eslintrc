@@ -1,20 +1,26 @@
 {
   "extends": ["airbnb", "plugin:jest/recommended"],
   "plugins": ["jest"],
+  "parser": "babel-eslint",
   "env": {
     "browser": true,
     "jest/globals": true
   },
   "rules": {
     "no-tabs": 0,
+    "linebreak-style": "off",
+    "object-curly-spacing": ["error", "never"],
     "indent": [
-      "error",
-      "tab",
-      {
+      "error", "tab", {
         "SwitchCase": 1
       }
     ],
     "react/jsx-indent": ["error", "tab"],
-    "react/jsx-indent-props": ["error", "tab"]
+    "react/jsx-indent-props": ["error", "tab"],
+    "react/jsx-tag-spacing": [
+      "error", {
+        "beforeSelfClosing": "allow"
+      }
+    ]
   }
 }

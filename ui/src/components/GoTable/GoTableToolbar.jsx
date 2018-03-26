@@ -3,6 +3,7 @@ import Toolbar from 'material-ui/es/Toolbar/Toolbar';
 import Typography from 'material-ui/es/Typography/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
+import Modals from '../../utils/constants/Modals';
 import CreateGoDialogContainer from '../creatego';
 
 const styles = {
@@ -14,20 +15,19 @@ const styles = {
 	},
 };
 
-const GoTableToolbar = ({ classes, onSubmit }) => (
+const GoTableToolbar = ({ classes, actions }) => (
 	<Toolbar className={classes.root}>
 		<div className={classes.title}>
 			<Typography variant="title">Global Aliases</Typography>
 		</div>
 		<div className={classes.spacer} />
 		<div className={classes.actions}>
-			<CreateGoDialogContainer onSubmit={onSubmit} />
+			<CreateGoDialogContainer modal={Modals.CREATE_ALIAS}/>
 		</div>
 	</Toolbar>
 );
 
 GoTableToolbar.propTypes = {
-	onSubmit: PropTypes.func.isRequired,
 	classes: PropTypes.shape({
 		root: PropTypes.string,
 		title: PropTypes.string,
