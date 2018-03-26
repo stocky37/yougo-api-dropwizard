@@ -1,3 +1,2 @@
 rootProject.name = 'yougo'
 include 'bff'
-include 'ui'
