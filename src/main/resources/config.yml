@@ -2,7 +2,7 @@ server:
   type: default
 
 db:
-  driverClass: org.h2.Driver
-  url: jdbc:h2:mem:test
+  driverClass: ${DB_DRIVER:-org.h2.Driver}
+  url: ${DB_URL:-jdbc:h2:mem:test}
   properties:
     hibernate.hbm2ddl.auto: create
