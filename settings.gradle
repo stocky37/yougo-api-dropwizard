@@ -1,2 +1,1 @@
-rootProject.name = 'yougo'
-include 'bff'
+rootProject.name = 'yougo-api'
