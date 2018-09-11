@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'net.ltgt.apt-idea' version '0.18'
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
 }
 
 sourceCompatibility = 1.8
