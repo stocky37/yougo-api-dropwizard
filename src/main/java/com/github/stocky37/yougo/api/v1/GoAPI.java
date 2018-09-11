@@ -8,6 +8,6 @@ import javax.ws.rs.core.Response;
 @Path("/go")
 public interface GoAPI {
   @GET
-  @Path("{alias}")
-  Response go(@PathParam("alias") String alias);
+  @Path("{go}")
+  Response go(@PathParam("go") String go);
 }

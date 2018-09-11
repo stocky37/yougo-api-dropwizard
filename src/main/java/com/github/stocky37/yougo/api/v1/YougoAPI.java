@@ -4,9 +4,9 @@ import javax.ws.rs.Path;
 
 @Path("v1")
 public interface YougoAPI {
-  @Path("aliases")
-  AliasesAPI aliases();
+	@Path("gos")
+	GosAPI gos();
 
-  @Path("go")
-  GoAPI go();
+	@Path("go")
+	GoAPI go();
 }

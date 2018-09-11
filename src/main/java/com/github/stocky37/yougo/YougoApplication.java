@@ -9,11 +9,11 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import com.github.stocky37.yougo.config.CORSBundle;
 import com.github.stocky37.yougo.config.YougoConfiguration;
-import com.github.stocky37.yougo.core.AliasesService;
-import com.github.stocky37.yougo.core.DAOAliasesService;
-import com.github.stocky37.yougo.db.AliasConverter;
-import com.github.stocky37.yougo.db.AliasesDAO;
-import com.github.stocky37.yougo.http.v1.AliasesResource;
+import com.github.stocky37.yougo.core.GosService;
+import com.github.stocky37.yougo.core.DAOGosService;
+import com.github.stocky37.yougo.db.GoConverter;
+import com.github.stocky37.yougo.db.GosDAO;
+import com.github.stocky37.yougo.http.v1.GosResource;
 import com.github.stocky37.yougo.http.v1.GoResource;
 import com.github.stocky37.yougo.http.v1.YougoResource;
 
@@ -41,11 +41,11 @@ public class YougoApplication extends Application<YougoConfiguration> {
 
   @Override
   public void run(YougoConfiguration configuration, Environment environment) {
-    final AliasesDAO dao = new AliasesDAO(hibernateBundle.getSessionFactory());
-    final AliasesService service = new DAOAliasesService(dao, new AliasConverter());
+    final GosDAO dao = new GosDAO(hibernateBundle.getSessionFactory());
+    final GosService service = new DAOGosService(dao, new GoConverter());
 
     environment.jersey().register(
-        new YougoResource(new AliasesResource(service), new GoResource(service))
+        new YougoResource(new GosResource(service), new GoResource(service))
     );
   }
 }

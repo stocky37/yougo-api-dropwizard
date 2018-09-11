@@ -13,11 +13,11 @@ import javax.ws.rs.core.MediaType;
 @Path("aliases")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public interface AliasesAPI {
+public interface GosAPI {
 
   @GET
-  List<Alias> listAliases();
+  List<Go> listGos();
 
   @POST
-  Alias addGo(@Valid @NotNull Alias alias);
+  Go addGo(@Valid @NotNull Go go);
 }

@@ -10,9 +10,9 @@ import org.immutables.value.Value;
 
 @Value.Immutable
 @Value.Style(passAnnotations = {NotBlank.class, URL.class, NotNull.class})
-@JsonSerialize(as = ImmutableAlias.class)
-@JsonDeserialize(as = ImmutableAlias.class)
-public interface Alias {
+@JsonSerialize(as = ImmutableGo.class)
+@JsonDeserialize(as = ImmutableGo.class)
+public interface Go {
 
   @Value.Default
   default String getId() {
@@ -20,11 +20,9 @@ public interface Alias {
   }
 
   @NotBlank
-  String getAlias();
+  String getGo();
 
   @URL
   @NotNull
   String getHref();
-
-  String getDescription();
 }

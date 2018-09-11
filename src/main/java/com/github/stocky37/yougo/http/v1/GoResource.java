@@ -9,16 +9,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import com.github.stocky37.yougo.api.v1.GoAPI;
-import com.github.stocky37.yougo.core.AliasesService;
+import com.github.stocky37.yougo.core.GosService;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class GoResource implements GoAPI {
 
-  private final AliasesService service;
+  private final GosService service;
 
-  public GoResource(AliasesService service) {
+  public GoResource(GosService service) {
     this.service = service;
   }
 
@@ -26,7 +26,7 @@ public class GoResource implements GoAPI {
   @Override
   public Response go(String alias) {
     return Response.seeOther(
-        URI.create(service.getAlias(alias).orElseThrow(NotFoundException::new).getHref())
+        URI.create(service.getGo(alias).orElseThrow(NotFoundException::new).getHref())
     ).build();
   }
 }
