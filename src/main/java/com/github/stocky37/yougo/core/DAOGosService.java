@@ -14,26 +14,27 @@ import java.util.Optional;
 public class DAOGosService implements GosService {
 
 	private final GosDAO dao;
-	private final Converter<Go, GoEntity> converter;
+	private final Converter<Go, GoEntity> toEntity;
+	private final Converter<GoEntity, Go> fromEntity;
 
-	public DAOGosService(GosDAO dao,
-											 Converter<Go, GoEntity> converter) {
+	public DAOGosService(GosDAO dao, Converter<Go, GoEntity> toEntity) {
 		this.dao = dao;
-		this.converter = converter;
+		this.toEntity = toEntity;
+		this.fromEntity = toEntity.reverse();
 	}
 
 	@Override
 	public List<Go> listGos() {
-		return ImmutableList.copyOf(converter.reverse().convertAll(dao.getGos()));
-	}
-
-	@Override
-	public Optional<Go> getGo(String go) {
-		return dao.getGoByName(go).map(a -> converter.reverse().convert(a));
+		return ImmutableList.copyOf(fromEntity.convertAll(dao.getGos()));
 	}
 
 	@Override
 	public Go createGo(Go go) {
-		return converter.reverse().convert(dao.createAlias(converter.convert(go)));
+		return fromEntity.convert(dao.createAlias(toEntity.convert(go)));
+	}
+
+	@Override
+	public Optional<Go> getGo(String go) {
+		return dao.getGoByName(go).map(fromEntity);
 	}
 }
