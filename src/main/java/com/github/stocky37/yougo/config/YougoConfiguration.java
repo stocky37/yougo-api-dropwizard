@@ -7,14 +7,14 @@ import io.dropwizard.db.DataSourceFactory;
 
 public class YougoConfiguration extends Configuration {
 
-  @JsonProperty("db")
-  private DataSourceFactory dataSourceFactory;
+	@JsonProperty("db")
+	private DataSourceFactory dataSourceFactory;
 
-  public DataSourceFactory getDataSourceFactory() {
-    return dataSourceFactory;
-  }
+	public DataSourceFactory getDataSourceFactory() {
+		return dataSourceFactory;
+	}
 
-  public void setDataSourceFactory(DataSourceFactory dataSourceFactory) {
-    this.dataSourceFactory = dataSourceFactory;
-  }
+	public void setDataSourceFactory(DataSourceFactory dataSourceFactory) {
+		this.dataSourceFactory = dataSourceFactory;
+	}
 }

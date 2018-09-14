@@ -7,7 +7,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/go")
 public interface GoAPI {
-  @GET
-  @Path("{go}")
-  Response go(@PathParam("go") String go);
+	@GET
+	@Path("{go}")
+	Response go(@PathParam("go") String go);
 }

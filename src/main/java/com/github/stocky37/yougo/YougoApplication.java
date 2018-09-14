@@ -11,12 +11,12 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import com.github.stocky37.yougo.config.CORSBundle;
 import com.github.stocky37.yougo.config.YougoConfiguration;
-import com.github.stocky37.yougo.core.GosService;
 import com.github.stocky37.yougo.core.DAOGosService;
+import com.github.stocky37.yougo.core.GosService;
 import com.github.stocky37.yougo.db.GoConverter;
 import com.github.stocky37.yougo.db.GosDAO;
-import com.github.stocky37.yougo.http.v1.GosResource;
 import com.github.stocky37.yougo.http.v1.GoResource;
+import com.github.stocky37.yougo.http.v1.GosResource;
 import com.github.stocky37.yougo.http.v1.YougoResource;
 
 public class YougoApplication extends Application<YougoConfiguration> {
