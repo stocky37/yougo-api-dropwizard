@@ -14,13 +14,13 @@ public class GosDAO extends AbstractDAO<GoEntity> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<GoEntity> getAliases() {
+	public List<GoEntity> getGos() {
 		return list(namedQuery("listGos"));
 	}
 
 	@SuppressWarnings("unchecked")
-	public Optional<GoEntity> getAlias(String go) {
-		return Optional.ofNullable(uniqueResult(namedQuery("getGo").setParameter("go", go)));
+	public Optional<GoEntity> getGoByName(String go) {
+		return Optional.ofNullable(uniqueResult(namedQuery("getGoByName").setParameter("go", go)));
 	}
 
 	public GoEntity createAlias(GoEntity alias) {

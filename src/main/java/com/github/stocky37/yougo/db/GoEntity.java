@@ -8,7 +8,7 @@ import javax.persistence.NamedQuery;
 @Entity(name = "gos")
 @NamedQueries({
 		@NamedQuery(name = "listGos", query = "FROM gos"),
-		@NamedQuery(name = "getGo", query = "FROM gos g WHERE g.go = :go")
+		@NamedQuery(name = "getGoByName", query = "FROM gos g WHERE g.go = :go")
 })
 public class GoEntity {
 	@Id

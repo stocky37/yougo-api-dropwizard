@@ -24,12 +24,12 @@ public class DAOGosService implements GosService {
 
 	@Override
 	public List<Go> listGos() {
-		return ImmutableList.copyOf(converter.reverse().convertAll(dao.getAliases()));
+		return ImmutableList.copyOf(converter.reverse().convertAll(dao.getGos()));
 	}
 
 	@Override
 	public Optional<Go> getGo(String go) {
-		return dao.getAlias(go).map(a -> converter.reverse().convert(a));
+		return dao.getGoByName(go).map(a -> converter.reverse().convert(a));
 	}
 
 	@Override
