@@ -15,12 +15,12 @@ public class GosDAO extends AbstractDAO<GoEntity> {
 
 	@SuppressWarnings("unchecked")
 	public List<GoEntity> getGos() {
-		return list(namedQuery("listGos"));
+		return list(namedQuery(GoEntity.Queries.LIST_GOS));
 	}
 
 	@SuppressWarnings("unchecked")
 	public Optional<GoEntity> getGoByName(String go) {
-		return Optional.ofNullable(uniqueResult(namedQuery("getGoByName").setParameter("go", go)));
+		return Optional.ofNullable(uniqueResult(namedQuery(GoEntity.Queries.BY_NAME).setParameter("go", go)));
 	}
 
 	public GoEntity createAlias(GoEntity alias) {
