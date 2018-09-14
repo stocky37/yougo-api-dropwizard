@@ -8,6 +8,7 @@ import com.github.stocky37.yougo.core.GosService;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
 public class GosResource implements GosAPI {
 
@@ -27,5 +28,11 @@ public class GosResource implements GosAPI {
 	@Override
 	public Go addGo(@Valid @NotNull Go go) {
 		return service.createGo(go);
+	}
+
+	@UnitOfWork
+	@Override
+	public Optional<Go> deleteGo(@NotNull String id) {
+		return service.deleteGo(id);
 	}
 }

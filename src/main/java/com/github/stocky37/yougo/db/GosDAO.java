@@ -23,6 +23,12 @@ public class GosDAO extends AbstractDAO<GoEntity> {
 		return Optional.ofNullable(uniqueResult(namedQuery(GoEntity.Queries.BY_NAME).setParameter("go", go)));
 	}
 
+	public Optional<GoEntity> deleteGo(String id) {
+		final Optional<GoEntity> go = Optional.ofNullable(get(id));
+		go.ifPresent(entity -> currentSession().delete(entity));
+		return go;
+	}
+
 	public GoEntity createAlias(GoEntity alias) {
 		this.persist(alias);
 		return alias;

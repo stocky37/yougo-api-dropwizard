@@ -37,4 +37,9 @@ public class DAOGosService implements GosService {
 	public Optional<Go> getGo(String go) {
 		return dao.getGoByName(go).map(fromEntity);
 	}
+
+	@Override
+	public Optional<Go> deleteGo(String id) {
+		return dao.deleteGo(id).map(fromEntity);
+	}
 }
