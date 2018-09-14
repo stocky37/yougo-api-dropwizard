@@ -6,10 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GosService {
-
 	List<Go> listGos();
-
-	Optional<Go> getGo(String go);
-
 	Go createGo(Go go);
+	Optional<Go> getGo(String go);
 }
