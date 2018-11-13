@@ -4,5 +4,7 @@ server:
 db:
   driverClass: ${DB_DRIVER:-org.h2.Driver}
   url: ${DB_URL:-jdbc:h2:mem:test}
+  user: ${DB_USER}
+  password: ${DB_PASSWORD}
   properties:
     hibernate.hbm2ddl.auto: create
