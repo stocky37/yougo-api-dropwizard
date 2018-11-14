@@ -17,6 +17,7 @@ dependencies {
     annotationProcessor 'org.immutables:value:2.+'
     compile 'io.dropwizard:dropwizard-core:1.+'
     compile 'io.dropwizard:dropwizard-hibernate:1.+'
+    compile 'io.dropwizard:dropwizard-migrations:1.+'
     compile 'io.dropwizard:dropwizard-testing:1.+'
     compile 'io.dropwizard:dropwizard-validation:1.+'
     compileOnly 'org.immutables:value:2.+:annotations'

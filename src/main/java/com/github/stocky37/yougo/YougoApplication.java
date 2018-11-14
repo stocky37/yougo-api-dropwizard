@@ -7,6 +7,7 @@ import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.hibernate.ScanningHibernateBundle;
+import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import com.github.stocky37.yougo.config.CORSBundle;
@@ -21,6 +22,13 @@ import com.github.stocky37.yougo.http.v1.YougoResource;
 
 public class YougoApplication extends Application<YougoConfiguration> {
 
+	private static final MigrationsBundle<YougoConfiguration> migrationsBundle = new MigrationsBundle<YougoConfiguration>() {
+		@Override
+		public PooledDataSourceFactory getDataSourceFactory(YougoConfiguration configuration) {
+			return configuration.getDataSourceFactory();
+		}
+	};
+
 	private static final HibernateBundle<YougoConfiguration> hibernateBundle = new
 			ScanningHibernateBundle<YougoConfiguration>("com.github.stocky37.yougo.db") {
 				@Override
@@ -30,7 +38,7 @@ public class YougoApplication extends Application<YougoConfiguration> {
 			};
 
 	public static void main(String[] args) throws Exception {
-		new YougoApplication().run("server", "config.yml");
+		new YougoApplication().run(args);
 	}
 
 	@Override
@@ -40,6 +48,7 @@ public class YougoApplication extends Application<YougoConfiguration> {
 				new ResourceConfigurationSourceProvider(),
 				new EnvironmentVariableSubstitutor(false)
 		));
+		bootstrap.addBundle(migrationsBundle);
 		bootstrap.addBundle(hibernateBundle);
 		bootstrap.addBundle(new CORSBundle());
 	}
