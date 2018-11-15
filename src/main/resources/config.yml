@@ -1,5 +1,6 @@
 server:
   type: default
+  rootPath: ${ROOT_PATH:-/}
 
 db:
   driverClass: ${DB_DRIVER:-org.h2.Driver}
