@@ -13,17 +13,21 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Optional;
 
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+
 public interface GosAPI {
 
 	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	List<Go> listGos();
 
 	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	Go addGo(@Valid @NotNull Go go);
 
 	@DELETE
 	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	Optional<Go> deleteGo(@NotNull @PathParam("id") String id);
 }
