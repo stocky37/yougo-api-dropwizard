@@ -47,4 +47,9 @@ public class GoEntity {
 		this.href = href;
 		return this;
 	}
+
+	public void merge(GoEntity entity) {
+		this.go = entity.go;
+		this.href = entity.href;
+	}
 }

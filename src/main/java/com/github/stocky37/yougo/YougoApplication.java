@@ -56,10 +56,11 @@ public class YougoApplication extends Application<YougoConfiguration> {
 	@Override
 	public void run(YougoConfiguration configuration, Environment environment) {
 		final GosDAO dao = new GosDAO(hibernateBundle.getSessionFactory());
-		final GosService service = new DAOGosService(dao, new GoConverter());
+		final GosService service = new DAOGosService(dao, new GoConverter(), environment.getObjectMapper());
 
-		environment.jersey().register(
-				new YougoResource(new GosResource(service), new GoResource(service))
-		);
+		environment.jersey().register(new YougoResource(
+				new GosResource(service),
+				new GoResource(service)
+		));
 	}
 }

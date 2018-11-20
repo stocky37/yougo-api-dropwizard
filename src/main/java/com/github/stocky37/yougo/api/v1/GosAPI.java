@@ -1,5 +1,8 @@
 package com.github.stocky37.yougo.api.v1;
 
+import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
+import io.dropwizard.jersey.PATCH;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -30,6 +33,12 @@ public interface GosAPI {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	Optional<Go> getGo(@NotNull @PathParam("id") String id);
+
+	@PATCH
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	Optional<Go> udpateGo(@PathParam("id") String id, @NotNull JsonMergePatch patch);
 
 	@DELETE
 	@Path("{id}")

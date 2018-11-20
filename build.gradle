@@ -15,6 +15,7 @@ repositories {
 
 dependencies {
     annotationProcessor 'org.immutables:value:2.+'
+    compile 'com.github.fge:json-patch:1.+'
     compile 'io.dropwizard:dropwizard-core:1.+'
     compile 'io.dropwizard:dropwizard-hibernate:1.+'
     compile 'io.dropwizard:dropwizard-migrations:1.+'

@@ -1,5 +1,6 @@
 package com.github.stocky37.yougo.http.v1;
 
+import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import io.dropwizard.hibernate.UnitOfWork;
 import com.github.stocky37.yougo.api.v1.Go;
 import com.github.stocky37.yougo.api.v1.GosAPI;
@@ -28,6 +29,12 @@ public class GosResource implements GosAPI {
 	@Override
 	public Go addGo(@Valid @NotNull Go go) {
 		return service.createGo(go);
+	}
+
+	@UnitOfWork
+	@Override
+	public Optional<Go> udpateGo(String id, @NotNull JsonMergePatch patch) {
+		return service.updateGo(id, patch);
 	}
 
 	@UnitOfWork
