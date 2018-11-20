@@ -27,7 +27,7 @@ public class GoResource implements GoAPI {
 	@Override
 	public Response go(String alias) {
 		return Response.seeOther(
-				URI.create(service.getGo(alias).orElseThrow(NotFoundException::new).getHref())
+				URI.create(service.getGoByName(alias).orElseThrow(NotFoundException::new).getHref())
 		).build();
 	}
 }

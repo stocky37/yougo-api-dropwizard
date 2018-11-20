@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface GosService {
 	List<Go> listGos();
 	Go createGo(Go go);
-	Optional<Go> getGo(String go);
+	Optional<Go> getGo(String id);
+	Optional<Go> getGoByName(String go);
 	Optional<Go> deleteGo(String id);
 }

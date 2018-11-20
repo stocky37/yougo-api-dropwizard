@@ -25,6 +25,12 @@ public interface GosAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	Go addGo(@Valid @NotNull Go go);
 
+	@GET
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	Optional<Go> getGo(@NotNull @PathParam("id") String id);
+
 	@DELETE
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)

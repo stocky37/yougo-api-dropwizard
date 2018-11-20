@@ -34,7 +34,12 @@ public class DAOGosService implements GosService {
 	}
 
 	@Override
-	public Optional<Go> getGo(String go) {
+	public Optional<Go> getGo(String id) {
+		return dao.getGo(id).map(fromEntity);
+	}
+
+	@Override
+	public Optional<Go> getGoByName(String go) {
 		return dao.getGoByName(go).map(fromEntity);
 	}
 

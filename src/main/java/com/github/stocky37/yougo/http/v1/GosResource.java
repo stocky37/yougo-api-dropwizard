@@ -32,6 +32,12 @@ public class GosResource implements GosAPI {
 
 	@UnitOfWork
 	@Override
+	public Optional<Go> getGo(@NotNull String id) {
+		return service.getGo(id);
+	}
+
+	@UnitOfWork
+	@Override
 	public Optional<Go> deleteGo(@NotNull String id) {
 		return service.deleteGo(id);
 	}
