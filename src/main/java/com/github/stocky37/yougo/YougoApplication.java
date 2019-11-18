@@ -38,6 +38,7 @@ public class YougoApplication extends Application<YougoConfiguration> {
 			};
 
 	public static void main(String[] args) throws Exception {
+		new YougoApplication().run("db", "migrate", "config.yml");
 		new YougoApplication().run(args);
 	}
 

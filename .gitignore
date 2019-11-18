@@ -1,8 +1,6 @@
-build/
-node_modules/
-coverage/
+target/
 .idea/
-.gradle/
 *.log
 *.iml
-out/
+.mvn/wrapper/maven-wrapper.jar
+dependency-reduced-pom.xml
