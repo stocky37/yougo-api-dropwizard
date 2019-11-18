@@ -1,31 +1,30 @@
 package com.github.stocky37.yougo.db;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+
+import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import java.util.UUID;
 
 @Entity(name = "gos")
-@NamedQueries({
-		@NamedQuery(name = GoEntity.Queries.LIST_GOS, query = "FROM gos"),
-		@NamedQuery(name = GoEntity.Queries.BY_NAME, query = "FROM gos g WHERE g.go = :go")
-})
-public class GoEntity {
-	public interface Queries {
-		String LIST_GOS = "listGos";
-		String BY_NAME = "getGoByName";
+public class GoEntity extends PanacheEntityBase {
+	@Id
+	public UUID id;
+	public String go;
+	public String href;
+
+	@SuppressWarnings("ConstantConditions")
+	@Nullable
+	public static GoEntity findByName(String name) {
+		return find("go", name).singleResult();
 	}
 
-	@Id
-	private String id;
-	private String go;
-	private String href;
-
-	public String getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public GoEntity setId(String id) {
+	public GoEntity setId(UUID id) {
 		this.id = id;
 		return this;
 	}

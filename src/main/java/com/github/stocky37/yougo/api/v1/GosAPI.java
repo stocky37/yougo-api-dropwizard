@@ -1,13 +1,13 @@
 package com.github.stocky37.yougo.api.v1;
 
 import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
-import io.dropwizard.jersey.PATCH;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
