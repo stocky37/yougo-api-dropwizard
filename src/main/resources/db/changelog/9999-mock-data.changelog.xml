@@ -1,0 +1,18 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+									 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+									 xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+	<changeSet id="mock-data" author="stocky37" context="dev">
+		<insert tableName="gos">
+			<column name="id" value="11132c27-d775-45ea-bcd5-65dc8cbda525"/>
+			<column name="go" value="npm"/>
+			<column name="href" value="https://www.npmjs.com/"/>
+		</insert>
+		<insert tableName="gos">
+			<column name="id" value="da98c2a4-c186-4767-b69c-06c5ddd64ffe"/>
+			<column name="go" value="gh"/>
+			<column name="href" value="https://github.com/"/>
+		</insert>
+	</changeSet>
+</databaseChangeLog>
