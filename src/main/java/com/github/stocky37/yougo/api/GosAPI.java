@@ -1,7 +1,7 @@
 package com.github.stocky37.yougo.api;
 
 import com.github.stocky37.yougo.util.MoreMediaTypes;
-
+import java.util.List;
 import javax.json.JsonObject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -15,13 +15,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Path("gos")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface GosAPI {
-
 	@GET
 	List<GoOutputDTO> findAll();
 
@@ -34,7 +32,7 @@ public interface GosAPI {
 
 	@PATCH
 	@Path("{id}")
-	@Consumes({MoreMediaTypes.JSON_MERGE_PATCH, MediaType.APPLICATION_JSON})
+	@Consumes({ MoreMediaTypes.JSON_MERGE_PATCH, MediaType.APPLICATION_JSON })
 	GoOutputDTO update(@PathParam("id") String id, @NotNull JsonObject patch);
 
 	@DELETE

@@ -1,27 +1,26 @@
 package com.github.stocky37.yougo.http.v1;
 
+import static org.hamcrest.CoreMatchers.is;
+
 import com.github.stocky37.yougo.TestUtils;
 import com.github.stocky37.yougo.db.GoRepository;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.transaction.Transactional;
-
-import static org.hamcrest.CoreMatchers.is;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 @QuarkusTest
 class GoResourceTest {
+	@Inject
+	GoRepository repository;
 
-	@Inject GoRepository repository;
-
-//	@BeforeAll
-//	static void init() {
-//		RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
-//	}
+	//	@BeforeAll
+	//	static void init() {
+	//		RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
+	//	}
 
 	@BeforeEach
 	@Transactional
@@ -33,7 +32,8 @@ class GoResourceTest {
 	@Test
 	void go() {
 		final JsonObject generated = TestUtils.insertGo(RestAssured.given());
-		RestAssured.given()
+		RestAssured
+			.given()
 			.pathParam("alias", generated.getString("alias"))
 			.get()
 			.then()
@@ -45,10 +45,6 @@ class GoResourceTest {
 
 	@Test
 	void goNotFound() {
-		RestAssured.given()
-			.pathParam("alias", "notfound")
-			.get()
-			.then()
-			.statusCode(404);
+		RestAssured.given().pathParam("alias", "notfound").get().then().statusCode(404);
 	}
 }
