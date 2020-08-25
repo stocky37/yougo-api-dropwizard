@@ -15,6 +15,7 @@
 		<version.quarkus>1.7.0.Final</version.quarkus>
 		<version.surefire-plugin>2.22.0</version.surefire-plugin>
 		<version.compiler-plugin>3.8.1</version.compiler-plugin>
+		<plugin.prettier.goal>write</plugin.prettier.goal>
 	</properties>
 
 	<dependencyManagement>
@@ -113,6 +114,20 @@
 					</systemProperties>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.hubspot.maven.plugins</groupId>
+				<artifactId>prettier-maven-plugin</artifactId>
+				<version>0.10</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>${plugin.prettier.goal}</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 	<profiles>

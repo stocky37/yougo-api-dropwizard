@@ -1,10 +1,10 @@
 package com.github.stocky37.yougo;
 
-import com.github.stocky37.yougo.api.GosAPI;
 import com.github.stocky37.yougo.api.GoInputDTO;
 import com.github.stocky37.yougo.api.GoOutputDTO;
+import com.github.stocky37.yougo.api.GosAPI;
 import com.github.stocky37.yougo.db.GoRepository;
-
+import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.json.JsonObject;
@@ -15,12 +15,11 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.List;
 
 @RequestScoped
 public class GosResource implements GosAPI {
-
-	@Context UriInfo uriInfo;
+	@Context
+	UriInfo uriInfo;
 
 	private final GoRepository repository;
 
@@ -39,9 +38,10 @@ public class GosResource implements GosAPI {
 	@Override
 	public Response create(@Valid @NotNull GoInputDTO go) {
 		final GoOutputDTO created = repository.create(go);
-		return Response.created(uriInfo.getAbsolutePathBuilder()
-			.path(GosAPI.class, "findById")
-			.build(created.id)).entity(created).build();
+		return Response
+			.created(uriInfo.getAbsolutePathBuilder().path(GosAPI.class, "findById").build(created.id))
+			.entity(created)
+			.build();
 	}
 
 	@Transactional
@@ -61,5 +61,4 @@ public class GosResource implements GosAPI {
 	public GoOutputDTO update(String id, @NotNull JsonObject patch) {
 		return repository.updateGo(id, patch).orElseThrow(NotFoundException::new);
 	}
-
 }

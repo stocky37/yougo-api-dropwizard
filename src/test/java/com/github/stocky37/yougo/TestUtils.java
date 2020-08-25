@@ -5,12 +5,11 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
-
-import javax.json.Json;
-import javax.json.JsonObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
+import javax.json.Json;
+import javax.json.JsonObject;
 
 public class TestUtils {
 	private static final Faker faker = new Faker();
@@ -32,7 +31,8 @@ public class TestUtils {
 	}
 
 	public static JsonObject generateGo(final String prefix) {
-		return Json.createObjectBuilder()
+		return Json
+			.createObjectBuilder()
 			.add("alias", prefix + faker.lorem().word())
 			.add("href", "http://" + faker.company().url())
 			.build();
@@ -47,12 +47,15 @@ public class TestUtils {
 	// as that response is ordered by alias
 	public static JsonObject insertGo(final RequestSpecification req, final String prefix) {
 		final JsonObject generated = TestUtils.generateGo(prefix);
-		final String id = extractId(RestAssured.given()
-			.basePath("/gos")
-			.contentType(ContentType.JSON)
-			.body(generated.toString())
-			.post()
-			.then());
+		final String id = extractId(
+			RestAssured
+				.given()
+				.basePath("/gos")
+				.contentType(ContentType.JSON)
+				.body(generated.toString())
+				.post()
+				.then()
+		);
 		return Json.createObjectBuilder(generated).add("id", id).build();
 	}
 
