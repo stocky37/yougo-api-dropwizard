@@ -1,4 +1,4 @@
-package com.github.stocky37.yougo.api.v1.json;
+package com.github.stocky37.yougo.api;
 
 import org.hibernate.validator.constraints.URL;
 

@@ -6,11 +6,8 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.config.EncoderConfig;
 import io.restassured.config.RestAssuredConfig;
-import io.restassured.filter.log.RequestLoggingFilter;
-import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +17,8 @@ import javax.json.JsonObject;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
+import static com.github.stocky37.yougo.TestUtils.extractId;
+import static com.github.stocky37.yougo.TestUtils.insertGo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
@@ -27,16 +26,15 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 public class GosResourceTest {
 	@Inject GoRepository repository;
 
-	@BeforeAll
-	static void init() {
-		RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
-
-	}
+//	@BeforeAll
+//	static void init() {
+//		RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
+//	}
 
 	@BeforeEach
 	@Transactional
 	void before() {
-		RestAssured.basePath = "/v1/gos/";
+		RestAssured.basePath = "/gos";
 		repository.deleteAll();
 		RestAssured.config = RestAssuredConfig.config()
 			.encoderConfig(EncoderConfig.encoderConfig()
@@ -59,7 +57,7 @@ public class GosResourceTest {
 		response.header(
 			"location",
 			is(String.format(
-				"%s:%s/v1/gos/%s",
+				"%s:%s/gos/%s",
 				RestAssured.baseURI,
 				RestAssured.port,
 				extractId(response)
@@ -161,8 +159,8 @@ public class GosResourceTest {
 
 	@Test
 	public void findAll() {
-		final JsonObject a = insertGo("a");
-		final JsonObject b = insertGo("b");
+		final JsonObject a = insertGo(RestAssured.given(), "a");
+		final JsonObject b = insertGo(RestAssured.given(), "b");
 
 		validateGosCount(2)
 			.body("[0].id", is(a.getString("id")))
@@ -172,7 +170,7 @@ public class GosResourceTest {
 
 	@Test
 	public void findById() {
-		final JsonObject generated = insertGo();
+		final JsonObject generated = insertGo(RestAssured.given());
 		RestAssured.given()
 			.when()
 			.pathParam("id", generated.getString("id"))
@@ -206,7 +204,7 @@ public class GosResourceTest {
 
 	@Test
 	public void updateAlias() {
-		final JsonObject generated = insertGo();
+		final JsonObject generated = insertGo(RestAssured.given());
 		final JsonObject update = TestUtils.generateGo();
 
 		RestAssured.given()
@@ -232,7 +230,7 @@ public class GosResourceTest {
 
 	@Test
 	public void deleteById() {
-		final JsonObject generated = insertGo();
+		final JsonObject generated = insertGo(RestAssured.given());
 
 		RestAssured.given()
 			.pathParam("id", generated.getString("id"))
@@ -262,26 +260,5 @@ public class GosResourceTest {
 			.then()
 			.statusCode(200)
 			.body("size()", is(count));
-	}
-
-	// generate a go with an alias with the given prefix
-	// this is used in order to ensure consistency in the findAll() test
-	// as that response is ordered by alias
-	private static JsonObject insertGo(final String prefix) {
-		final JsonObject generated = TestUtils.generateGo(prefix);
-		final String id = extractId(RestAssured.given()
-			.contentType(ContentType.JSON)
-			.body(generated.toString())
-			.post()
-			.then());
-		return Json.createObjectBuilder(generated).add("id", id).build();
-	}
-
-	private static JsonObject insertGo() {
-		return insertGo("");
-	}
-
-	private static String extractId(ValidatableResponse response) {
-		return response.extract().body().path("id");
 	}
 }

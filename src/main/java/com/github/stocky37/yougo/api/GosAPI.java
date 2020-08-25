@@ -1,12 +1,8 @@
-package com.github.stocky37.yougo.api.v1;
+package com.github.stocky37.yougo.api;
 
-import com.github.stocky37.yougo.api.v1.json.GoInputDTO;
-import com.github.stocky37.yougo.api.v1.json.GoOutputDTO;
 import com.github.stocky37.yougo.util.MoreMediaTypes;
 
-import javax.json.JsonMergePatch;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -21,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("/v1/gos")
+@Path("gos")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface GosAPI {

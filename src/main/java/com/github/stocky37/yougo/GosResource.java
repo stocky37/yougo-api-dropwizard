@@ -1,8 +1,8 @@
-package com.github.stocky37.yougo.http.v1;
+package com.github.stocky37.yougo;
 
-import com.github.stocky37.yougo.api.v1.GosAPI;
-import com.github.stocky37.yougo.api.v1.json.GoInputDTO;
-import com.github.stocky37.yougo.api.v1.json.GoOutputDTO;
+import com.github.stocky37.yougo.api.GosAPI;
+import com.github.stocky37.yougo.api.GoInputDTO;
+import com.github.stocky37.yougo.api.GoOutputDTO;
 import com.github.stocky37.yougo.db.GoRepository;
 
 import javax.enterprise.context.RequestScoped;

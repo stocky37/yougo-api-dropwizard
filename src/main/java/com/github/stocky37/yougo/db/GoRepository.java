@@ -1,13 +1,11 @@
 package com.github.stocky37.yougo.db;
 
-import com.github.stocky37.yougo.api.v1.json.GoInputDTO;
-import com.github.stocky37.yougo.api.v1.json.GoOutputDTO;
+import com.github.stocky37.yougo.api.GoInputDTO;
+import com.github.stocky37.yougo.api.GoOutputDTO;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Sort;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.json.JsonObject;
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +14,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-@ParametersAreNonnullByDefault
 public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
 
 	private static final Function<GoEntity, GoOutputDTO> toDTO = entity -> {
@@ -46,6 +43,10 @@ public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
 
 	public Optional<GoOutputDTO> findById(final String id) {
 		return findEntityById(id).map(toDTO);
+	}
+
+	public Optional<GoOutputDTO> findByAlias(final String alias) {
+		return find("#Go.findByAlias", alias).singleResultOptional().map(toDTO);
 	}
 
 	public Optional<GoOutputDTO> deleteById(final String id) {
