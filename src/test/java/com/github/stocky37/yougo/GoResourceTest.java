@@ -1,4 +1,4 @@
-package com.github.stocky37.yougo.http.v1;
+package com.github.stocky37.yougo;
 
 import static org.hamcrest.CoreMatchers.is;
 
