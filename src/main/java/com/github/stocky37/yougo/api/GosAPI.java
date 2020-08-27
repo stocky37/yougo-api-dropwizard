@@ -2,6 +2,7 @@ package com.github.stocky37.yougo.api;
 
 import com.github.stocky37.yougo.util.MoreMediaTypes;
 import java.util.List;
+import javax.json.JsonMergePatch;
 import javax.json.JsonObject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

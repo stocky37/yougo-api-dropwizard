@@ -2,7 +2,6 @@ package com.github.stocky37.yougo;
 
 import static org.hamcrest.CoreMatchers.is;
 
-import com.github.stocky37.yougo.TestUtils;
 import com.github.stocky37.yougo.db.GoRepository;
 import io.quarkus.security.identity.SecurityIdentity;
 import io.quarkus.test.junit.QuarkusTest;

@@ -5,11 +5,10 @@ import com.github.stocky37.yougo.api.GoOutputDTO;
 import com.github.stocky37.yougo.api.GosAPI;
 import com.github.stocky37.yougo.db.GoRepository;
 import io.quarkus.security.Authenticated;
-import io.quarkus.security.identity.SecurityIdentity;
 import java.util.List;
-import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.json.JsonMergePatch;
 import javax.json.JsonObject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -18,17 +17,13 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import org.glassfish.json.JsonMergePatchImpl;
 
 @Authenticated
-@RequestScoped
+@ApplicationScoped
 public class GosResource implements GosAPI {
-	private static final Logger log = Logger.getLogger(GosResource.class.getName());
-
 	@Context
 	UriInfo uriInfo;
-
-	@Inject
-	SecurityIdentity identity;
 
 	private final GoRepository repository;
 
@@ -40,7 +35,6 @@ public class GosResource implements GosAPI {
 	@Transactional
 	@Override
 	public List<GoOutputDTO> findAll() {
-		log.info(identity.getPrincipal().getName());
 		return repository.getAll();
 	}
 
