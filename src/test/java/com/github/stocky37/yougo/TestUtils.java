@@ -55,6 +55,7 @@ public class TestUtils {
 				.body(generated.toString())
 				.post()
 				.then()
+				.statusCode(201)
 		);
 		return Json.createObjectBuilder(generated).add("id", id).build();
 	}
