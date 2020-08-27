@@ -2,15 +2,18 @@ package com.github.stocky37.yougo;
 
 import static org.hamcrest.CoreMatchers.is;
 
-import com.github.stocky37.yougo.TestUtils;
 import com.github.stocky37.yougo.db.GoRepository;
+import io.quarkus.security.identity.SecurityIdentity;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.mockito.InjectMock;
 import io.restassured.RestAssured;
+import java.security.Principal;
 import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 @QuarkusTest
 class GoResourceTest {
@@ -22,9 +25,19 @@ class GoResourceTest {
 	//		RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
 	//	}
 
+	@InjectMock
+	SecurityIdentity securityIdentity;
+
+	@InjectMock
+	Principal principal;
+
 	@BeforeEach
 	@Transactional
 	void before() {
+		Mockito.when(securityIdentity.isAnonymous()).thenReturn(false);
+		Mockito.when(securityIdentity.getPrincipal()).thenReturn(principal);
+		Mockito.when(principal.getName()).thenReturn("testIdentity");
+
 		RestAssured.basePath = "/go/{alias}";
 		repository.deleteAll();
 	}

@@ -8,8 +8,16 @@
 			<column name="id" type="uuid">
 				<constraints nullable="false" primaryKey="true" primaryKeyName="pk_gos"/>
 			</column>
+			<column name="user" type="varchar(255)"/>
 			<column name="alias" type="varchar(255)"/>
 			<column name="href" type="clob"/>
 		</createTable>
+		<createIndex tableName="gos" indexName="gos_user">
+			<column name="user" />
+		</createIndex>
+		<createIndex tableName="gos" indexName="gos_user_alias" unique="true">
+			<column name="user" />
+			<column name="alias" />
+		</createIndex>
 	</changeSet>
 </databaseChangeLog>

@@ -7,12 +7,15 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 
 import com.github.stocky37.yougo.db.GoRepository;
 import com.github.stocky37.yougo.util.MoreMediaTypes;
+import io.quarkus.security.identity.SecurityIdentity;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.mockito.InjectMock;
 import io.restassured.RestAssured;
 import io.restassured.config.EncoderConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
+import java.security.Principal;
 import java.util.UUID;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -20,11 +23,18 @@ import javax.json.JsonObject;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 @QuarkusTest
 public class GosResourceTest {
 	@Inject
 	GoRepository repository;
+
+	@InjectMock
+	SecurityIdentity securityIdentity;
+
+	@InjectMock
+	Principal principal;
 
 	//	@BeforeAll
 	//	static void init() {
@@ -34,6 +44,10 @@ public class GosResourceTest {
 	@BeforeEach
 	@Transactional
 	void before() {
+		Mockito.when(securityIdentity.isAnonymous()).thenReturn(false);
+		Mockito.when(securityIdentity.getPrincipal()).thenReturn(principal);
+		Mockito.when(principal.getName()).thenReturn("testIdentity");
+
 		RestAssured.basePath = "/gos";
 		repository.deleteAll();
 		RestAssured.config =

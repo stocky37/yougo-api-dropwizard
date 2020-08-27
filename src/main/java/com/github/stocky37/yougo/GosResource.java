@@ -4,9 +4,11 @@ import com.github.stocky37.yougo.api.GoInputDTO;
 import com.github.stocky37.yougo.api.GoOutputDTO;
 import com.github.stocky37.yougo.api.GosAPI;
 import com.github.stocky37.yougo.db.GoRepository;
+import io.quarkus.security.Authenticated;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.json.JsonMergePatch;
 import javax.json.JsonObject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -15,8 +17,10 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import org.glassfish.json.JsonMergePatchImpl;
 
-@RequestScoped
+@Authenticated
+@ApplicationScoped
 public class GosResource implements GosAPI {
 	@Context
 	UriInfo uriInfo;
