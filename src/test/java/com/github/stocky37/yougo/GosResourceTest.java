@@ -12,6 +12,8 @@ import io.quarkus.test.junit.mockito.InjectMock;
 import io.restassured.RestAssured;
 import io.restassured.config.EncoderConfig;
 import io.restassured.config.RestAssuredConfig;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import java.security.Principal;
@@ -20,6 +22,7 @@ import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.transaction.Transactional;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -35,10 +38,10 @@ public class GosResourceTest {
 	@InjectMock
 	Principal principal;
 
-	//	@BeforeAll
-	//	static void init() {
-	//		RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
-	//	}
+	//		@BeforeAll
+	//		static void init() {
+	//			RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
+	//		}
 
 	@BeforeEach
 	@Transactional

@@ -1,9 +1,9 @@
 package com.github.stocky37.yougo;
 
-import com.github.stocky37.yougo.api.GosAPI;
+import com.github.stocky37.yougo.api.GosApi;
 import com.github.stocky37.yougo.db.GoRepository;
-import com.github.stocky37.yougo.dto.GoInputDTO;
-import com.github.stocky37.yougo.dto.GoOutputDTO;
+import com.github.stocky37.yougo.dto.GoInput;
+import com.github.stocky37.yougo.dto.GoOutput;
 import io.quarkus.security.Authenticated;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
@@ -19,7 +19,7 @@ import javax.ws.rs.core.UriInfo;
 
 @Authenticated
 @ApplicationScoped
-public class GosResource implements GosAPI {
+public class GosResource implements GosApi {
 	@Context
 	UriInfo uriInfo;
 
@@ -32,35 +32,35 @@ public class GosResource implements GosAPI {
 
 	@Transactional
 	@Override
-	public List<GoOutputDTO> findAll() {
+	public List<GoOutput> findAll() {
 		return repository.findAllFiltered();
 	}
 
 	@Transactional
 	@Override
-	public Response create(@Valid @NotNull GoInputDTO go) {
-		final GoOutputDTO created = repository.create(go);
+	public Response create(@Valid @NotNull GoInput go) {
+		final GoOutput created = repository.create(go);
 		return Response
-			.created(uriInfo.getAbsolutePathBuilder().path(GosAPI.class, "find").build(created.alias))
+			.created(uriInfo.getAbsolutePathBuilder().path(GosApi.class, "find").build(created.alias))
 			.entity(created)
 			.build();
 	}
 
 	@Transactional
 	@Override
-	public GoOutputDTO find(String alias) {
+	public GoOutput find(String alias) {
 		return repository.findByAlias(alias).orElseThrow(NotFoundException::new);
 	}
 
 	@Transactional
 	@Override
-	public GoOutputDTO delete(String alias) {
+	public GoOutput delete(String alias) {
 		return repository.delete(alias).orElseThrow(NotFoundException::new);
 	}
 
 	@Transactional
 	@Override
-	public GoOutputDTO update(String alias, @NotNull JsonObject patch) {
+	public GoOutput update(String alias, @NotNull JsonObject patch) {
 		return repository.update(alias, patch).orElseThrow(NotFoundException::new);
 	}
 }
