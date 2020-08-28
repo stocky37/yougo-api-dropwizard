@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>com.github.stocky37.yougo</groupId>
 	<artifactId>yougo-api</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
+
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
+		<plugin.prettier.goal>write</plugin.prettier.goal>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<version.checkstyle>8.35</version.checkstyle>
 		<version.quarkus>1.7.0.Final</version.quarkus>
 		<version.spotbugs>4.1.2</version.spotbugs>
 		<version.surefire-plugin>2.22.0</version.surefire-plugin>
 	</properties>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -24,6 +29,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>io.quarkus</groupId>
@@ -91,13 +97,46 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<groupId>com.github.ekryd.sortpom</groupId>
+					<artifactId>sortpom-maven-plugin</artifactId>
+					<version>2.11.0</version>
+					<executions>
+						<execution>
+							<phase>validate</phase>
+							<goals>
+								<goal>verify</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<lineSeparator>\n</lineSeparator>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<nrOfIndentSpace>-1</nrOfIndentSpace>
+						<sortDependencies>scope,groupId,artifactId</sortDependencies>
+						<sortPlugins>groupId,artifactId</sortPlugins>
+						<sortProperties>true</sortProperties>
+						<createBackupFile>false</createBackupFile>
+						<keepBlankLines>true</keepBlankLines>
+					</configuration>
+				</plugin>
+
+				<plugin>
 					<groupId>com.github.spotbugs</groupId>
 					<artifactId>spotbugs-maven-plugin</artifactId>
 					<version>4.0.4</version>
+					<executions>
+						<execution>
+							<phase>verify</phase>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
 					<dependencies>
 						<dependency>
 							<groupId>com.github.spotbugs</groupId>
@@ -106,62 +145,67 @@
 						</dependency>
 					</dependencies>
 				</plugin>
+
+				<plugin>
+					<groupId>com.hubspot.maven.plugins</groupId>
+					<artifactId>prettier-maven-plugin</artifactId>
+					<version>0.10</version>
+					<executions>
+						<execution>
+							<phase>validate</phase>
+							<goals>
+								<goal>${plugin.prettier.goal}</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-checkstyle-plugin</artifactId>
 					<version>3.1.1</version>
 					<executions>
 						<execution>
+							<phase>validate</phase>
 							<goals>
 								<goal>check</goal>
 							</goals>
 						</execution>
 					</executions>
+					<dependencies>
+						<dependency>
+							<groupId>com.puppycrawl.tools</groupId>
+							<artifactId>checkstyle</artifactId>
+							<version>${version.checkstyle}</version>
+						</dependency>
+					</dependencies>
 					<configuration>
 						<configLocation>google_checks.xml</configLocation>
+						<violationSeverity>warning</violationSeverity>
+						<!-- ignore checks that are now handled by prettier... and javadoc -->
+						<violationIgnore>indentation,whitespace,LineLength,javadoc</violationIgnore>
 					</configuration>
 				</plugin>
+
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.8.1</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
+
 		<plugins>
 			<plugin>
 				<groupId>com.github.ekryd.sortpom</groupId>
 				<artifactId>sortpom-maven-plugin</artifactId>
-				<version>2.11.0</version>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>sort</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<lineSeparator>\n</lineSeparator>
-					<encoding>${project.build.sourceEncoding}</encoding>
-					<nrOfIndentSpace>-1</nrOfIndentSpace>
-					<sortDependencies>scope,groupId,artifactId</sortDependencies>
-					<sortPlugins>groupId,artifactId</sortPlugins>
-					<sortProperties>true</sortProperties>
-					<createBackupFile>false</createBackupFile>
-				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>com.hubspot.maven.plugins</groupId>
 				<artifactId>prettier-maven-plugin</artifactId>
-				<version>0.10</version>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>write</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>io.quarkus</groupId>
@@ -190,7 +234,38 @@
 			</plugin>
 		</plugins>
 	</build>
+
 	<profiles>
+		<!-- CI profile to allow local checks to succeed the build or autofix if there are errors -->
+		<profile>
+			<id>dev</id>
+			<activation>
+				<property>
+					<name>env.CI</name>
+					<value>!true</value>
+				</property>
+			</activation>
+			<properties>
+				<checkstyle.failOnViolation>false</checkstyle.failOnViolation>
+				<spotbugs.failOnError>false</spotbugs.failOnError>
+			</properties>
+		</profile>
+
+		<!-- CI profile to fail if any checks error -->
+		<profile>
+			<id>ci</id>
+			<activation>
+				<property>
+					<name>env.CI</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<plugin.prettier.goal>check</plugin.prettier.goal>
+				<sort.verifyFail>stop</sort.verifyFail>
+			</properties>
+		</profile>
+
 		<profile>
 			<id>native</id>
 			<activation>
@@ -223,5 +298,6 @@
 				<quarkus.package.type>native</quarkus.package.type>
 			</properties>
 		</profile>
+
 	</profiles>
 </project>

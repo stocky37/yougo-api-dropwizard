@@ -1,8 +1,8 @@
 package com.github.stocky37.yougo.db;
 
 import com.github.stocky37.yougo.GosResource;
-import com.github.stocky37.yougo.dto.GoInputDTO;
-import com.github.stocky37.yougo.dto.GoOutputDTO;
+import com.github.stocky37.yougo.dto.GoInput;
+import com.github.stocky37.yougo.dto.GoOutput;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
@@ -22,14 +22,14 @@ import javax.json.JsonObject;
 @ApplicationScoped
 public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
 	private static final Logger log = Logger.getLogger(GosResource.class.getName());
-	private static final Function<GoEntity, GoOutputDTO> toDTO = entity -> {
-		GoOutputDTO dto = new GoOutputDTO();
+	private static final Function<GoEntity, GoOutput> toDTO = entity -> {
+		GoOutput dto = new GoOutput();
 		dto.id = entity.id.toString();
 		dto.alias = entity.alias;
 		dto.href = entity.href;
 		return dto;
 	};
-	private static final Function<GoInputDTO, GoEntity> fromDTO = dto -> {
+	private static final Function<GoInput, GoEntity> fromDTO = dto -> {
 		final GoEntity entity = new GoEntity();
 		entity.alias = dto.alias;
 		entity.href = dto.href;
@@ -43,35 +43,35 @@ public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
 		this.identity = identity;
 	}
 
-	public GoOutputDTO create(final GoInputDTO go) {
+	public GoOutput create(final GoInput go) {
 		final GoEntity entity = fromDTO.apply(go);
 		entity.user = getUserId();
 		persist(entity);
 		return toDTO.apply(entity);
 	}
 
-	public List<GoOutputDTO> findAllFiltered() {
+	public List<GoOutput> findAllFiltered() {
 		return filterByUser(findAll(Sort.ascending("alias")))
 			.stream()
 			.map(toDTO)
 			.collect(Collectors.toList());
 	}
 
-	public Optional<GoOutputDTO> findById(final String id) {
+	public Optional<GoOutput> findById(final String id) {
 		return findEntityById(id).map(toDTO);
 	}
 
-	public Optional<GoOutputDTO> findByAlias(final String alias) {
+	public Optional<GoOutput> findByAlias(final String alias) {
 		return findEntityByAlias(alias).map(toDTO);
 	}
 
-	public Optional<GoOutputDTO> delete(final String alias) {
+	public Optional<GoOutput> delete(final String alias) {
 		final Optional<GoEntity> entity = findEntityByAlias(alias);
 		entity.ifPresent(PanacheEntityBase::delete);
 		return entity.map(toDTO);
 	}
 
-	public Optional<GoOutputDTO> update(String id, JsonObject patch) {
+	public Optional<GoOutput> update(String id, JsonObject patch) {
 		return findEntityByAlias(id)
 			.map(
 				e -> {

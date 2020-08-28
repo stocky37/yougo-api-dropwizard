@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
 
-public class GoInputDTO {
+public class GoInput {
 	@NotNull
 	@Pattern(regexp = "[\\w-]+")
 	public String alias;
