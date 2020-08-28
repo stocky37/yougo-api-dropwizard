@@ -1,8 +1,8 @@
 package com.github.stocky37.yougo.db;
 
 import com.github.stocky37.yougo.GosResource;
-import com.github.stocky37.yougo.api.GoInputDTO;
-import com.github.stocky37.yougo.api.GoOutputDTO;
+import com.github.stocky37.yougo.dto.GoInputDTO;
+import com.github.stocky37.yougo.dto.GoOutputDTO;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.json.JsonMergePatch;
 import javax.json.JsonObject;
 
 @ApplicationScoped
@@ -51,7 +50,7 @@ public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
 		return toDTO.apply(entity);
 	}
 
-	public List<GoOutputDTO> getAll() {
+	public List<GoOutputDTO> findAllFiltered() {
 		return filterByUser(findAll(Sort.ascending("alias")))
 			.stream()
 			.map(toDTO)
@@ -63,17 +62,17 @@ public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
 	}
 
 	public Optional<GoOutputDTO> findByAlias(final String alias) {
-		return filterByUser(find("#Go.findByAlias", alias)).singleResultOptional().map(toDTO);
+		return findEntityByAlias(alias).map(toDTO);
 	}
 
-	public Optional<GoOutputDTO> deleteById(final String id) {
-		final Optional<GoEntity> entity = findEntityById(id);
+	public Optional<GoOutputDTO> delete(final String alias) {
+		final Optional<GoEntity> entity = findEntityByAlias(alias);
 		entity.ifPresent(PanacheEntityBase::delete);
 		return entity.map(toDTO);
 	}
 
-	public Optional<GoOutputDTO> updateGo(String id, JsonObject patch) {
-		return findEntityById(id)
+	public Optional<GoOutputDTO> update(String id, JsonObject patch) {
+		return findEntityByAlias(id)
 			.map(
 				e -> {
 					if (patch.containsKey("alias")) {
@@ -86,6 +85,10 @@ public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
 				}
 			)
 			.map(toDTO);
+	}
+
+	private Optional<GoEntity> findEntityByAlias(String alias) {
+		return filterByUser(find("#Go.findByAlias", alias)).singleResultOptional();
 	}
 
 	private Optional<GoEntity> findEntityById(String id) {

@@ -5,26 +5,11 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Objects;
 import javax.json.Json;
 import javax.json.JsonObject;
 
 public class TestUtils {
 	private static final Faker faker = new Faker();
-
-	public static String resource(final String name) throws IOException {
-		return new String(Objects.requireNonNull(resourceStream(name)).readAllBytes());
-	}
-
-	public static JsonObject jsonResource(final String name) {
-		return Json.createReader(resourceStream(name)).readObject();
-	}
-
-	private static InputStream resourceStream(final String name) {
-		return TestUtils.class.getClassLoader().getResourceAsStream(name);
-	}
 
 	public static JsonObject generateGo() {
 		return generateGo("");
