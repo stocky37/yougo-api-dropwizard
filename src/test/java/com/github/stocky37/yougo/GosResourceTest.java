@@ -1,6 +1,5 @@
 package com.github.stocky37.yougo;
 
-import static com.github.stocky37.yougo.TestUtils.extractId;
 import static com.github.stocky37.yougo.TestUtils.insertGo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -76,14 +75,21 @@ public class GosResourceTest {
 
 		response.header(
 			"location",
-			is(String.format("%s:%s/gos/%s", RestAssured.baseURI, RestAssured.port, extractId(response)))
+			is(
+				String.format(
+					"%s:%s/gos/%s",
+					RestAssured.baseURI,
+					RestAssured.port,
+					generated.getString("alias")
+				)
+			)
 		);
 
 		validateGosCount(1);
 	}
 
 	@Test
-	void createInvalidHref() {
+	void create400InvalidHref() {
 		final JsonObject generated = Json
 			.createObjectBuilder(TestUtils.generateGo())
 			.add("href", "badhref")
@@ -101,7 +107,7 @@ public class GosResourceTest {
 	}
 
 	@Test
-	void createMissingHref() {
+	void create400MissingHref() {
 		final JsonObject generated = Json
 			.createObjectBuilder(TestUtils.generateGo())
 			.remove("href")
@@ -119,7 +125,7 @@ public class GosResourceTest {
 	}
 
 	@Test
-	void createEmptyHref() {
+	void create400EmptyHref() {
 		final JsonObject generated = Json
 			.createObjectBuilder(TestUtils.generateGo())
 			.add("href", "")
@@ -137,7 +143,7 @@ public class GosResourceTest {
 	}
 
 	@Test
-	void createInvalidAlias() {
+	void create400InvalidAlias() {
 		final JsonObject generated = Json
 			.createObjectBuilder(TestUtils.generateGo())
 			.add("alias", "bad alias")
@@ -155,7 +161,7 @@ public class GosResourceTest {
 	}
 
 	@Test
-	void createMissingAlias() {
+	void create400MissingAlias() {
 		final JsonObject generated = Json
 			.createObjectBuilder(TestUtils.generateGo())
 			.remove("alias")
@@ -173,7 +179,7 @@ public class GosResourceTest {
 	}
 
 	@Test
-	void createEmptyAlias() {
+	void create400EmptyAlias() {
 		final JsonObject generated = Json
 			.createObjectBuilder(TestUtils.generateGo())
 			.add("alias", "")
@@ -192,20 +198,22 @@ public class GosResourceTest {
 
 	@Test
 	public void findAll() {
-		final JsonObject a = insertGo(RestAssured.given(), "a");
+		insertGo(RestAssured.given(), "a");
+		Mockito.when(principal.getName()).thenReturn("altIdentity");
 		final JsonObject b = insertGo(RestAssured.given(), "b");
+		final JsonObject c = insertGo(RestAssured.given(), "c");
 
-		validateGosCount(2).body("[0].id", is(a.getString("id"))).body("[1].id", is(b.getString("id")));
+		validateGosCount(2).body("[0].id", is(b.getString("id"))).body("[1].id", is(c.getString("id")));
 	}
 
 	@Test
-	public void findById() {
+	public void find() {
 		final JsonObject generated = insertGo(RestAssured.given());
 		RestAssured
 			.given()
 			.when()
-			.pathParam("id", generated.getString("id"))
-			.get("/{id}")
+			.pathParam("alias", generated.getString("alias"))
+			.get("/{alias}")
 			.then()
 			.statusCode(200)
 			.body("id", is(generated.getString("id")))
@@ -214,7 +222,7 @@ public class GosResourceTest {
 	}
 
 	@Test
-	public void findByIdNotFound() {
+	public void find404NotFound() {
 		RestAssured
 			.given()
 			.pathParam("id", UUID.randomUUID())
@@ -225,11 +233,6 @@ public class GosResourceTest {
 	}
 
 	@Test
-	public void findByIdInvalidId() {
-		RestAssured.given().pathParam("id", "badid").when().get("/{id}").then().statusCode(404);
-	}
-
-	@Test
 	public void updateAlias() {
 		final JsonObject generated = insertGo(RestAssured.given());
 		final JsonObject update = TestUtils.generateGo();
@@ -237,9 +240,9 @@ public class GosResourceTest {
 		RestAssured
 			.given()
 			.contentType(MoreMediaTypes.JSON_MERGE_PATCH)
-			.pathParam("id", generated.getString("id"))
+			.pathParam("alias", generated.getString("alias"))
 			.body(update.toString())
-			.patch("/{id}")
+			.patch("/{alias}")
 			.then()
 			.statusCode(200)
 			.body("id", is(generated.getString("id")))
@@ -248,8 +251,8 @@ public class GosResourceTest {
 
 		RestAssured
 			.given()
-			.pathParam("id", generated.getString("id"))
-			.get("/{id}")
+			.pathParam("alias", update.getString("alias"))
+			.get("/{alias}")
 			.then()
 			.statusCode(200)
 			.body("id", is(generated.getString("id")))
@@ -258,13 +261,13 @@ public class GosResourceTest {
 	}
 
 	@Test
-	public void deleteById() {
+	public void delete() {
 		final JsonObject generated = insertGo(RestAssured.given());
 
 		RestAssured
 			.given()
-			.pathParam("id", generated.getString("id"))
-			.delete("/{id}")
+			.pathParam("alias", generated.getString("alias"))
+			.delete("/{alias}")
 			.then()
 			.statusCode(200)
 			.body("id", is(generated.getString("id")))
@@ -275,8 +278,8 @@ public class GosResourceTest {
 	}
 
 	@Test
-	public void deleteByIdNotFound() {
-		RestAssured.given().pathParam("id", UUID.randomUUID()).delete("/{id}").then().statusCode(404);
+	public void delete404NotFound() {
+		RestAssured.given().pathParam("alias", "nonexistent").delete("/{alias}").then().statusCode(404);
 	}
 
 	private static ValidatableResponse validateGosCount(final int count) {

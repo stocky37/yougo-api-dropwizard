@@ -1,4 +1,4 @@
-package com.github.stocky37.yougo.api;
+package com.github.stocky37.yougo.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
