@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+CONTAINER_RUNTIME="${1:-docker}"
+REGISTRY=registry.heroku.com
+APP_NAME=yougo-api
+
+heroku container:login
+"$CONTAINER_RUNTIME" push "$REGISTRY/$APP_NAME/web"
+heroku container:release web --app "$APP_NAME"

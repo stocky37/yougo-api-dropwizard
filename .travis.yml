@@ -3,3 +3,15 @@ jdk: openjdk11
 
 branches:
   only: [master]
+
+services: [docker]
+
+script: ./mvnw test
+
+before_deploy: ./bin/build
+deploy:
+  provider: script
+  script: ./bin/deploy
+  skip_cleanup: true
+  on:
+    branch: master

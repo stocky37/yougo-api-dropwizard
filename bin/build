@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+CONTAINER_RUNTIME="${1:-docker}"
+REGISTRY=registry.heroku.com
+APP_NAME=yougo-api
+
+env CI=false \
+  ./mvnw package -P native \
+  -D quarkus.native.container-build=true \
+  -D quarkus.native.container-runtime="$CONTAINER_RUNTIME" \
+  -D quarkus.datasource.db-kind=pg \
+  -D skipTests
+
+"$CONTAINER_RUNTIME" build -f src/main/docker/Dockerfile.native -t "$REGISTRY/$APP_NAME/web" .
