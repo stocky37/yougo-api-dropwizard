@@ -13,7 +13,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<version.checkstyle>8.35</version.checkstyle>
-		<version.quarkus>1.7.0.Final</version.quarkus>
+		<version.quarkus>1.13.3.Final</version.quarkus>
 		<version.spotbugs>4.1.2</version.spotbugs>
 		<version.surefire-plugin>2.22.0</version.surefire-plugin>
 	</properties>
