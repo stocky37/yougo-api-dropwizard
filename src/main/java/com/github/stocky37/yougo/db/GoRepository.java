@@ -13,15 +13,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
 public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
-	private static final Logger log = Logger.getLogger(GosResource.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(GoRepository.class);
 	private static final Function<GoEntity, GoOutput> toDTO = entity -> {
 		GoOutput dto = new GoOutput();
 		dto.id = entity.id.toString();
@@ -96,7 +97,7 @@ public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
 			return filterByUser(find("#Go.findById", UUID.fromString(id))).singleResultOptional();
 		} catch (IllegalArgumentException e) {
 			// handle invalid UUIDs
-			log.finer("Invalid id " + id);
+			log.debug("Invalid id " + id);
 			return Optional.empty();
 		}
 	}
