@@ -104,7 +104,7 @@ public class GosResourceTest {
 			.body(generated.toString())
 			.post("/")
 			.then()
-			.statusCode(500); // should be 400 - see: https://github.com/quarkusio/quarkus/pull/11506
+			.statusCode(400);
 
 		validateGosCount(0);
 	}
@@ -122,7 +122,7 @@ public class GosResourceTest {
 			.body(generated.toString())
 			.post("/")
 			.then()
-			.statusCode(500); // should be 400 - see: https://github.com/quarkusio/quarkus/pull/11506
+			.statusCode(400);
 
 		validateGosCount(0);
 	}
@@ -140,7 +140,7 @@ public class GosResourceTest {
 			.body(generated.toString())
 			.post("/")
 			.then()
-			.statusCode(500); // should be 400 - see: https://github.com/quarkusio/quarkus/pull/11506
+			.statusCode(400);
 
 		validateGosCount(0);
 	}
@@ -158,7 +158,7 @@ public class GosResourceTest {
 			.body(generated.toString())
 			.post("/")
 			.then()
-			.statusCode(500); // should be 400 - see: https://github.com/quarkusio/quarkus/pull/11506
+			.statusCode(400);
 
 		validateGosCount(0);
 	}
@@ -176,7 +176,7 @@ public class GosResourceTest {
 			.body(generated.toString())
 			.post("/")
 			.then()
-			.statusCode(500); // should be 400 - see: https://github.com/quarkusio/quarkus/pull/11506
+			.statusCode(400);
 
 		validateGosCount(0);
 	}
@@ -194,7 +194,7 @@ public class GosResourceTest {
 			.body(generated.toString())
 			.post("/")
 			.then()
-			.statusCode(500); // should be 400 - see: https://github.com/quarkusio/quarkus/pull/11506
+			.statusCode(400);
 
 		validateGosCount(0);
 	}
