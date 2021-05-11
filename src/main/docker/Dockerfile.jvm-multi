@@ -22,9 +22,10 @@
 #
 ###
 FROM registry.access.redhat.com/ubi8/openjdk-11 AS build
+ARG MAVEN_ARGS=-DskipTests
 COPY src ./
 COPY pom.xml ./
-RUN mvn package
+RUN mvn -B package ${MAVEN_ARGS}
 
 
 FROM registry.access.redhat.com/ubi8/ubi-minimal:8.3
