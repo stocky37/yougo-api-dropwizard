@@ -22,10 +22,16 @@
 #
 ###
 FROM registry.access.redhat.com/ubi8/openjdk-11 AS build
-ARG MAVEN_ARGS=-DskipTests
-COPY src ./
-COPY pom.xml ./
-RUN mvn -B package ${MAVEN_ARGS}
+
+ARG MVN_PACKAGE_ARGS='-P build'
+
+# Download dependencies
+COPY pom.xml .
+RUN mvn -B dependency:go-offline
+
+# Copy & build application sources
+COPY src ./src
+RUN mvn -B package -DskipTests ${MVN_PACKAGE_ARGS}
 
 
 FROM registry.access.redhat.com/ubi8/ubi-minimal:8.3
@@ -54,6 +60,7 @@ COPY --chown=1001 --from=build /home/jboss/target/quarkus-app/lib/ /deployments/
 COPY --chown=1001 --from=build /home/jboss/target/quarkus-app/*.jar /deployments/
 COPY --chown=1001 --from=build /home/jboss/target/quarkus-app/app/ /deployments/app/
 COPY --chown=1001 --from=build /home/jboss/target/quarkus-app/quarkus/ /deployments/quarkus/
+#COPY --chown=1001 --from=build /home/jboss/target/classes/*.properties /deployments/config/
 
 EXPOSE 8080
 USER 1001

@@ -3,5 +3,6 @@
 #!target/*-runner
 #!target/*-runner.jar
 #!target/lib/*
-!src/
 !pom.xml
+!src/
+src/main/docker

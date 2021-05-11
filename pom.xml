@@ -10,6 +10,7 @@
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<plugin.prettier.goal>write</plugin.prettier.goal>
+		<plugin.prettier.skip>false</plugin.prettier.skip>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<version.checkstyle>8.35</version.checkstyle>
@@ -158,6 +159,9 @@
 							</goals>
 						</execution>
 					</executions>
+					<configuration>
+						<skip>${plugin.prettier.skip}</skip>
+					</configuration>
 				</plugin>
 
 				<plugin>
@@ -211,10 +215,13 @@
 				<groupId>io.quarkus</groupId>
 				<artifactId>quarkus-maven-plugin</artifactId>
 				<version>${version.quarkus}</version>
+				<extensions>true</extensions>
 				<executions>
 					<execution>
 						<goals>
 							<goal>build</goal>
+							<goal>generate-code</goal>
+							<goal>generate-code-tests</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -227,9 +234,10 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${version.surefire-plugin}</version>
 				<configuration>
-					<systemProperties>
+					<systemPropertyVariables>
 						<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-					</systemProperties>
+						<maven.home>${maven.home}</maven.home>
+					</systemPropertyVariables>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -266,6 +274,14 @@
 			</properties>
 		</profile>
 
+		<!-- CI profile for purely building the container image -->
+		<profile>
+			<id>build</id>
+			<properties>
+				<plugin.prettier.skip>true</plugin.prettier.skip>
+			</properties>
+		</profile>
+
 		<profile>
 			<id>native</id>
 			<activation>
@@ -285,9 +301,11 @@
 									<goal>verify</goal>
 								</goals>
 								<configuration>
-									<systemProperties>
+									<systemPropertyVariables>
 										<native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
-									</systemProperties>
+										<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+										<maven.home>${maven.home}</maven.home>
+									</systemPropertyVariables>
 								</configuration>
 							</execution>
 						</executions>
