@@ -10,6 +10,7 @@ import io.quarkus.panache.common.Parameters;
 import io.quarkus.panache.common.Sort;
 import io.quarkus.security.identity.SecurityIdentity;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
@@ -58,6 +59,10 @@ public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
 			.collect(Collectors.toList());
 	}
 
+	public Optional<GoOutput> findByIdOrAlias(final String idOrAlias) {
+		return findEntityByIdOrAlias(idOrAlias).map(toDTO);
+	}
+
 	public Optional<GoOutput> findById(final String id) {
 		return findEntityById(id).map(toDTO);
 	}
@@ -66,14 +71,14 @@ public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
 		return findEntityByAlias(alias).map(toDTO);
 	}
 
-	public Optional<GoOutput> delete(final String alias) {
-		final Optional<GoEntity> entity = findEntityByAlias(alias);
+	public Optional<GoOutput> delete(final String idOrAlias) {
+		final Optional<GoEntity> entity = findEntityByIdOrAlias(idOrAlias);
 		entity.ifPresent(PanacheEntityBase::delete);
 		return entity.map(toDTO);
 	}
 
-	public Optional<GoOutput> update(String id, JsonObject patch) {
-		return findEntityByAlias(id)
+	public Optional<GoOutput> update(String idOrAlias, JsonObject patch) {
+		return findEntityByIdOrAlias(idOrAlias)
 			.map(
 				e -> {
 					if (patch.containsKey("alias")) {
@@ -86,6 +91,14 @@ public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
 				}
 			)
 			.map(toDTO);
+	}
+
+	private Optional<GoEntity> findEntityByIdOrAlias(String idOrAlias) {
+		Optional<GoEntity> entity = findEntityById(idOrAlias);
+		if (entity.isEmpty()) {
+			entity = findEntityByAlias(idOrAlias);
+		}
+		return entity;
 	}
 
 	private Optional<GoEntity> findEntityByAlias(String alias) {

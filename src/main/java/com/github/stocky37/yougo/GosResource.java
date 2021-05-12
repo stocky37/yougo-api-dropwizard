@@ -48,19 +48,19 @@ public class GosResource implements GosApi {
 
 	@Transactional
 	@Override
-	public GoOutput find(String alias) {
-		return repository.findByAlias(alias).orElseThrow(NotFoundException::new);
+	public GoOutput find(String idOrAlias) {
+		return repository.findByIdOrAlias(idOrAlias).orElseThrow(NotFoundException::new);
 	}
 
 	@Transactional
 	@Override
-	public GoOutput delete(String alias) {
-		return repository.delete(alias).orElseThrow(NotFoundException::new);
+	public GoOutput delete(String idOrAlias) {
+		return repository.delete(idOrAlias).orElseThrow(NotFoundException::new);
 	}
 
 	@Transactional
 	@Override
-	public GoOutput update(String alias, @NotNull JsonObject patch) {
-		return repository.update(alias, patch).orElseThrow(NotFoundException::new);
+	public GoOutput update(String idOrAlias, @NotNull JsonObject patch) {
+		return repository.update(idOrAlias, patch).orElseThrow(NotFoundException::new);
 	}
 }
