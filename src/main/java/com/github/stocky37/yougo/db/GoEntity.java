@@ -5,12 +5,12 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.ParamDef;
 
 @Table(name = "gos")
@@ -22,8 +22,7 @@ import org.hibernate.annotations.ParamDef;
 @SuppressFBWarnings("UrF")
 public class GoEntity extends PanacheEntityBase {
 	@Id
-	@GeneratedValue
-	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public UUID id;
 
 	public String alias;
