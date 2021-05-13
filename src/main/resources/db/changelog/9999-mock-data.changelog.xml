@@ -8,13 +8,13 @@
 			<column name="id" value="11132c27-d775-45ea-bcd5-65dc8cbda525"/>
 			<column name="alias" value="npm"/>
 			<column name="href" value="https://www.npmjs.com/"/>
-			<column name="user" value="testIdentity"/>
+			<column name="userid" value="testIdentity"/>
 		</insert>
 		<insert tableName="gos">
 			<column name="id" value="da98c2a4-c186-4767-b69c-06c5ddd64ffe"/>
 			<column name="alias" value="gh"/>
 			<column name="href" value="https://github.com/"/>
-			<column name="user" value="testIdentity"/>
+			<column name="userid" value="testIdentity"/>
 		</insert>
 	</changeSet>
 </databaseChangeLog>

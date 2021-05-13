@@ -48,6 +48,10 @@ public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
 	public GoOutput create(final GoInput go) {
 		final GoEntity entity = fromDTO.apply(go);
 		entity.user = getUserId();
+		log.debug(
+			"################################################################################# Create go with user: {}",
+			getUserId()
+		);
 		persist(entity);
 		return toDTO.apply(entity);
 	}
