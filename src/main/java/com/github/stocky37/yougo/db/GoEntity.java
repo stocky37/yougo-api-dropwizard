@@ -18,7 +18,7 @@ import org.hibernate.annotations.ParamDef;
 @Entity(name = "Go")
 @NamedQuery(name = "Go.findById", query = "from Go where id = ?1")
 @NamedQuery(name = "Go.findByAlias", query = "from Go where alias = ?1")
-@FilterDef(name = "user", parameters = @ParamDef(name = "user", type = "string"))
+@FilterDef(name = "user", parameters = @ParamDef(name = "user", type = String.class))
 @Filter(name = "user", condition = "userid = :user")
 @SuppressFBWarnings("UrF")
 public class GoEntity extends PanacheEntityBase {
