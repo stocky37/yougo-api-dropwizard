@@ -12,10 +12,9 @@
 		<plugin.prettier.skip>false</plugin.prettier.skip>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<version.checkstyle>8.35</version.checkstyle>
-		<version.quarkus>3.5.0</version.quarkus>
-		<version.spotbugs>4.1.2</version.spotbugs>
 		<version.compiler-plugin>3.11.0</version.compiler-plugin>
+		<version.quarkus>3.5.0</version.quarkus>
+		<version.spotbugs>4.8.0</version.spotbugs>
 		<version.surefire-plugin>3.2.1</version.surefire-plugin>
 	</properties>
 
@@ -135,90 +134,84 @@
 				<plugin>
 					<groupId>com.github.ekryd.sortpom</groupId>
 					<artifactId>sortpom-maven-plugin</artifactId>
-					<version>2.11.0</version>
+					<version>3.3.0</version>
+					<configuration>
+						<createBackupFile>false</createBackupFile>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<expandEmptyElements>false</expandEmptyElements>
+						<lineSeparator>\n</lineSeparator>
+						<nrOfIndentSpace>-1</nrOfIndentSpace>
+						<sortDependencies>scope,groupId,artifactId</sortDependencies>
+						<sortDependencyExclusions>scope,groupId,artifactId</sortDependencyExclusions>
+						<sortPlugins>groupId,artifactId</sortPlugins>
+						<sortProperties>true</sortProperties>
+					</configuration>
 					<executions>
 						<execution>
-							<phase>validate</phase>
 							<goals>
 								<goal>verify</goal>
 							</goals>
+							<phase>validate</phase>
 						</execution>
 					</executions>
-					<configuration>
-						<lineSeparator>\n</lineSeparator>
-						<encoding>${project.build.sourceEncoding}</encoding>
-						<nrOfIndentSpace>-1</nrOfIndentSpace>
-						<sortDependencies>scope,groupId,artifactId</sortDependencies>
-						<sortPlugins>groupId,artifactId</sortPlugins>
-						<sortProperties>true</sortProperties>
-						<createBackupFile>false</createBackupFile>
-						<keepBlankLines>true</keepBlankLines>
-					</configuration>
 				</plugin>
 
 				<plugin>
 					<groupId>com.github.spotbugs</groupId>
 					<artifactId>spotbugs-maven-plugin</artifactId>
-					<version>4.0.4</version>
+					<version>4.7.3.6</version>
 					<executions>
 						<execution>
-							<phase>verify</phase>
 							<goals>
 								<goal>check</goal>
 							</goals>
+							<phase>verify</phase>
 						</execution>
 					</executions>
-					<dependencies>
-						<dependency>
-							<groupId>com.github.spotbugs</groupId>
-							<artifactId>spotbugs</artifactId>
-							<version>${version.spotbugs}</version>
-						</dependency>
-					</dependencies>
 				</plugin>
 
 				<plugin>
 					<groupId>com.hubspot.maven.plugins</groupId>
 					<artifactId>prettier-maven-plugin</artifactId>
-					<version>0.10</version>
-					<executions>
-						<execution>
-							<phase>validate</phase>
-							<goals>
-								<goal>${plugin.prettier.goal}</goal>
-							</goals>
-						</execution>
-					</executions>
+					<version>0.16</version>
 					<configuration>
 						<skip>${plugin.prettier.skip}</skip>
 					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>${plugin.prettier.goal}</goal>
+							</goals>
+							<phase>validate</phase>
+						</execution>
+					</executions>
 				</plugin>
 
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-checkstyle-plugin</artifactId>
-					<version>3.1.1</version>
-					<executions>
-						<execution>
-							<phase>validate</phase>
-							<goals>
-								<goal>check</goal>
-							</goals>
-						</execution>
-					</executions>
-					<dependencies>
-						<dependency>
-							<groupId>com.puppycrawl.tools</groupId>
-							<artifactId>checkstyle</artifactId>
-							<version>${version.checkstyle}</version>
-						</dependency>
-					</dependencies>
+					<version>3.3.1</version>
 					<configuration>
 						<configLocation>google_checks.xml</configLocation>
 						<violationSeverity>warning</violationSeverity>
 						<!-- ignore checks that are now handled by prettier... and javadoc -->
 						<violationIgnore>indentation,whitespace,LineLength,javadoc</violationIgnore>
 					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>com.puppycrawl.tools</groupId>
+							<artifactId>checkstyle</artifactId>
+							<version>10.12.4</version>
+						</dependency>
+					</dependencies>
+					<executions>
+						<execution>
+							<goals>
+								<goal>check</goal>
+							</goals>
+							<phase>validate</phase>
+						</execution>
+					</executions>
 				</plugin>
 
 				<plugin>
@@ -324,6 +317,9 @@
 					<name>native</name>
 				</property>
 			</activation>
+			<properties>
+				<quarkus.package.type>native</quarkus.package.type>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -347,10 +343,6 @@
 					</plugin>
 				</plugins>
 			</build>
-			<properties>
-				<quarkus.native.additional-build-args>-J-Xmx5G</quarkus.native.additional-build-args>
-				<quarkus.package.type>native</quarkus.package.type>
-			</properties>
 		</profile>
 
 	</profiles>
