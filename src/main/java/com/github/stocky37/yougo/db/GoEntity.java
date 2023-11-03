@@ -9,9 +9,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+import java.sql.Types;
 import java.util.UUID;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.ParamDef;
 
 @Table(name = "gos")
@@ -27,6 +29,8 @@ public class GoEntity extends PanacheEntityBase {
 	public UUID id;
 
 	public String alias;
+
+	@JdbcTypeCode(Types.LONGVARCHAR)
 	public String href;
 
 	@Column(name = "userid")
