@@ -1,6 +1,5 @@
 package com.github.stocky37.yougo.db;
 
-import com.github.stocky37.yougo.GosResource;
 import com.github.stocky37.yougo.dto.GoInput;
 import com.github.stocky37.yougo.dto.GoOutput;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
@@ -13,7 +12,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.JsonObject;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
@@ -48,10 +46,6 @@ public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
 	public GoOutput create(final GoInput go) {
 		final GoEntity entity = fromDTO.apply(go);
 		entity.user = getUserId();
-		log.debug(
-			"################################################################################# Create go with user: {}",
-			getUserId()
-		);
 		persist(entity);
 		return toDTO.apply(entity);
 	}
@@ -124,6 +118,8 @@ public class GoRepository implements PanacheRepositoryBase<GoEntity, UUID> {
 	}
 
 	private String getUserId() {
-		return identity.getPrincipal().getName();
+		String name = identity.getPrincipal().getName();
+		System.out.println(name);
+		return name;
 	}
 }

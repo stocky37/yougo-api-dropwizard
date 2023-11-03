@@ -113,12 +113,22 @@
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-test-security-oidc</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-junit5</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-junit5-mockito</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-test-oidc-server</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -220,6 +230,7 @@
 					<configuration>
 						<compilerArgs>
 							<arg>-parameters</arg>
+							<arg>-Xlint:preview</arg>
 						</compilerArgs>
 					</configuration>
 				</plugin>
@@ -257,6 +268,15 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>21</source>
+					<target>21</target>
+					<compilerArgs>--enable-preview</compilerArgs>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
